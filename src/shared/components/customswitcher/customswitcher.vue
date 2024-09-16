@@ -161,11 +161,12 @@
   </div>
   <!-- End Switcher -->
 </template>
-<script>
-import { reactive, ref } from 'vue';
+<script lang="ts">
+import { defineComponent, reactive, ref } from 'vue';
 import { menuData } from '@/data/menuData';
 import { switcherStore } from '@/stores/switcher.ts';
-export default {
+
+export default defineComponent({
     data() {
         return {
             menuData,
@@ -175,17 +176,17 @@ export default {
         }
     },
     methods: {
-        primaryColorFn(color) {
+        primaryColorFn(color: any) {
             let primaryRgb = this.convertRgbToIndividual(color);
             this.themePrimaryFn(primaryRgb);
         },
-        convertRgbToIndividual(value) {
+        convertRgbToIndividual(value: string) {
             // Use a regular expression to extract the numeric values
             const numericValues = value.match(/\d+/g);
             // Join the numeric values with spaces to get the desired format
-            return numericValues.join(' ');
+            return numericValues!.join(' ');
         },
-        colorthemeFn(value) {
+        colorthemeFn(value: string) {
             this.switcher.colorthemeFn(value);
             localStorage.setItem("spruhacolortheme", value);
             if (value == 'dark') {
@@ -196,20 +197,20 @@ export default {
                 localStorage.removeItem("spruhaMenu");
             }
         },
-        directionFn(value) {
+        directionFn(value: string) {
             this.switcher.directionFn(value);
             localStorage.setItem('spruhadirection', value);
         },
         closeMenuFn() {
-            const closeMenuRecursively = (items) => {
-                items?.forEach((item) => {
+            const closeMenuRecursively = (items: any[]) => {
+                items?.forEach((item: { active: boolean; children: any; }) => {
                     item.active = false;
                     closeMenuRecursively(item.children);
                 });
             };
             closeMenuRecursively(this.menuData);
         },
-        themePrimaryFn(value) { this.switcher.themePrimaryFn(value); },
+        themePrimaryFn(value: any) { this.switcher.themePrimaryFn(value); },
         reset() {
             this.switcher.$reset();
             this.switcher.custompageReset();
@@ -223,7 +224,7 @@ export default {
         this.custompageLocalStorage();
         console.log(this.switcher);
     },
-}
+})
 </script>
 <style lang="">
 

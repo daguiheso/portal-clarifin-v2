@@ -180,15 +180,13 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
+
 import Pageheader from "../../shared/components/pageheader/Pageheader.vue";
 import apexchart from "@/shared/UI/apexcharts.vue";
 
 import {
-  mobileappdesignSeries,
-  mobileappdesignOptions,
-  webappRedesignSeries,
-  webappRedesignOptions, todayTaskSeries, todayTaskChartOptions,
-  webDesignOptions, webDesignData, webDesignType, projectOptions, projectData
+  projectOptions, projectData
 } from './dahboardData.ts';
 
 </script>

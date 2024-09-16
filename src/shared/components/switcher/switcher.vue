@@ -455,11 +455,11 @@ export default defineComponent({
         }
     },
     methods: {
-        primaryColorFn(color) {
+        primaryColorFn(color: any) {
             let primaryRgb = this.convertRgbToIndividual(color);
             this.themePrimaryFn(primaryRgb);
         },
-        dynamicBackgroundColorFn(color) {
+        dynamicBackgroundColorFn(color: any) {
             let bgRgb = this.convertRgbToIndividual(color);
             let bgRgb2 = this.convertRgbToIndividual(color);
             let bg1Update = bgRgb.split(', ').join(', ');
@@ -469,13 +469,13 @@ export default defineComponent({
             bg2Update[2] = Number(bg2Update[2]) + 14;
             this.themeBackgroundFn(bg1Update, bg2Update.join(', '));
         },
-        convertRgbToIndividual(value) {
+        convertRgbToIndividual(value: any) {
             // Use a regular expression to extract the numeric values
             const numericValues = value.match(/\d+/g);
             // Join the numeric values with spaces to get the desired format
             return numericValues.join(', ');
         },
-        colorthemeFn(value) {
+        colorthemeFn(value: any) {
             this.switcher.colorthemeFn(value);
 
             localStorage.removeItem('spruhabodylightRGB')
@@ -489,64 +489,64 @@ export default defineComponent({
                 localStorage.removeItem("spruhaMenu");
             }
         },
-        directionFn(value) {
+        directionFn(value: any) {
             this.switcher.directionFn(value);
             localStorage.setItem('spruhadirection', value);
         },
-        navigationStylesFn(value) {
+        navigationStylesFn(value: any) {
             this.switcher.navigationStylesFn(value);
             localStorage.setItem('spruhanavstyles', value);
         },
         closeMenuFn() {
-            const closeMenuRecursively = (items) => {
-                items?.forEach((item) => {
+            const closeMenuRecursively = (items: any) => {
+                items?.forEach((item: any) => {
                     item.active = false;
                     closeMenuRecursively(item.children);
                 });
             };
             closeMenuRecursively(this.menuData);
         },
-        menuStylesFn(value) {
+        menuStylesFn(value: any) {
             this.switcher.menuStylesFn(value);
             localStorage.setItem('spruhamenuStyles', value);
             if (value == 'menu-hover' || value == 'icon-hover') {
                 this.closeMenuFn();
             }
         },
-        layoutStylesFn(value) {
+        layoutStylesFn(value: string) {
             this.switcher.layoutStylesFn(value);
             localStorage.setItem("spruhaverticalstyles", value);
             if (value == 'horizontal') {
                 this.closeMenuFn();
             }
         },
-        pageStylesFn(value) {
+        pageStylesFn(value: string) {
             this.switcher.pageStylesFn(value);
             localStorage.setItem("spruhapageStyle", value);
         },
-        widthStylesFn(value) {
+        widthStylesFn(value: string) {
             this.switcher.widthStylesFn(value);
             localStorage.setItem("spruhawidthStyles", value);
         },
-        menuPositionFn(value) {
+        menuPositionFn(value: string) {
             this.switcher.menuPositionFn(value);
             localStorage.setItem("spruhamenuposition", value);
         },
-        headerPositionFn(value) {
+        headerPositionFn(value: string) {
             this.switcher.headerPositionFn(value);
             localStorage.setItem("spruhaheaderposition", value);
         },
-        menuColorFn(value) {
+        menuColorFn(value: string) {
             this.switcher.menuColorFn(value);
             localStorage.setItem("spruhaMenu", value);
         },
-        headerColorFn(value) {
+        headerColorFn(value: string) {
             this.switcher.headerColorFn(value);
             localStorage.setItem("spruhaHeader", value);
         },
-        themePrimaryFn(value) { this.switcher.themePrimaryFn(value); },
-        themeBackgroundFn(val1, val2) { this.switcher.themeBackgroundFn(val1, val2); localStorage.removeItem('spruhaHeader'); localStorage.removeItem('spruhaMenu') },
-        backgroundImageFn(value) {
+        themePrimaryFn(value: any) { this.switcher.themePrimaryFn(value); },
+        themeBackgroundFn(val1: any, val2: any) { this.switcher.themeBackgroundFn(val1, val2); localStorage.removeItem('spruhaHeader'); localStorage.removeItem('spruhaMenu') },
+        backgroundImageFn(value: string) {
             this.switcher.backgroundImageFn(value);
             localStorage.setItem("spruhabgimg", value);
         },

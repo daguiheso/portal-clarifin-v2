@@ -44,7 +44,7 @@
       </div>
       <div class="d-flex p-3 border-top">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="checkebox-sm4" checked="">
+          <input class="form-check-input" type="checkbox" value="" id="checkebox-sm4" checked="false">
           <label class="form-check-label" for="checkebox-sm4"> System Updated </label>
         </div>
         <span class="ms-auto">
@@ -156,11 +156,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-
-onMounted(() => {
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-});
 
 </script>
 

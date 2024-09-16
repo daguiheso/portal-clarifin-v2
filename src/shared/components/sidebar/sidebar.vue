@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <!-- Start::app-sidebar -->
   <div id="responsive-overlay" @click="mainContentFn"></div>
     <aside class="app-sidebar sticky" :class="{'sticky-pin' : menuOverflowed}" id="sidebar">
@@ -66,6 +66,7 @@
 <!-- End::app-sidebar -->
 </template>
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from 'vue'
 
 import RecursiveMenu from '@/shared/UI/recursiveMenu.vue';

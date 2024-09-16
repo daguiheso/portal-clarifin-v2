@@ -65,8 +65,5 @@ export default defineComponent({
             required: true,
         },
     },
-    setup(props) {
-        // Access and check propData in the created hook
-    },
 });
 </script>
