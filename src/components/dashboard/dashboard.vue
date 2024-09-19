@@ -1,6 +1,9 @@
+<!-- eslint-disable vue/max-len -->
 <template>
   <!--Row-->
-  <Pageheader heading="Welcome To Dashboard" :maintitle='["Home", "Project Dashboard"]'></Pageheader>
+  <Pageheader
+    heading="Welcome To Dashboard"
+    :maintitle="[&quot;Home&quot;, &quot;Project Dashboard&quot;]" />
 
   <div class="row row-sm">
     <div class="col-sm-12 col-lg-12 col-xl-8">
@@ -11,19 +14,48 @@
             <div class="card-body">
               <div class="card-item">
                 <div class="card-item-icon card-icon">
-                  <svg class="text-primary" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
-                    height="24" viewBox="0 0 24 24" width="24">
+                  <svg
+                    class="text-primary"
+                    xmlns="http://www.w3.org/2000/svg"
+                    enable-background="new 0 0 24 24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24">
                     <g>
-                      <rect height="14" opacity=".3" width="14" x="5" y="5" />
+                      <rect
+                        height="14"
+                        opacity=".3"
+                        width="14"
+                        x="5"
+                        y="5" />
                       <g>
-                        <rect fill="none" height="24" width="24" />
+                        <rect
+                          fill="none"
+                          height="24"
+                          width="24" />
                         <g>
                           <path
                             d="M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,19H5V5h14V19z" />
-                          <rect height="5" width="2" x="7" y="12" />
-                          <rect height="10" width="2" x="15" y="7" />
-                          <rect height="3" width="2" x="11" y="14" />
-                          <rect height="2" width="2" x="11" y="10" />
+                          <rect
+                            height="5"
+                            width="2"
+                            x="7"
+                            y="12" />
+                          <rect
+                            height="10"
+                            width="2"
+                            x="15"
+                            y="7" />
+                          <rect
+                            height="3"
+                            width="2"
+                            x="11"
+                            y="14" />
+                          <rect
+                            height="2"
+                            width="2"
+                            x="11"
+                            y="10" />
                         </g>
                       </g>
                     </g>
@@ -35,7 +67,9 @@
                 </div>
                 <div class="card-item-body">
                   <div class="card-item-stat">
-                    <h4 class="fw-bold">4</h4>
+                    <h4 class="fw-bold">
+                      4
+                    </h4>
                     <!-- <small><b class="text-success">55%</b> higher</small> -->
                   </div>
                 </div>
@@ -49,8 +83,14 @@
             <div class="card-body">
               <div class="card-item">
                 <div class="card-item-icon card-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0V0z" fill="none" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24">
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none" />
                     <path
                       d="M12 4c-4.41 0-8 3.59-8 8 0 1.82.62 3.49 1.64 4.83 1.43-1.74 4.9-2.33 6.36-2.33s4.93.59 6.36 2.33C19.38 15.49 20 13.82 20 12c0-4.41-3.59-8-8-8zm0 9c-1.94 0-3.5-1.56-3.5-3.5S10.06 6 12 6s3.5 1.56 3.5 3.5S13.94 13 12 13z"
                       opacity=".3" />
@@ -64,7 +104,9 @@
                 </div>
                 <div class="card-item-body">
                   <div class="card-item-stat">
-                    <h4 class="fw-bold">2</h4>
+                    <h4 class="fw-bold">
+                      2
+                    </h4>
                     <!-- <small><b class="text-success">5%</b> Increased</small> -->
                   </div>
                 </div>
@@ -77,8 +119,15 @@
             <div class="card-body">
               <div class="card-item">
                 <div class="card-item-icon card-icon">
-                  <svg class="text-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                    <path d="M0 0h24v24H0V0z" fill="none" />
+                  <svg
+                    class="text-primary"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24">
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none" />
                     <path
                       d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm1.23 13.33V19H10.9v-1.69c-1.5-.31-2.77-1.28-2.86-2.97h1.71c.09.92.72 1.64 2.32 1.64 1.71 0 2.1-.86 2.1-1.39 0-.73-.39-1.41-2.34-1.87-2.17-.53-3.66-1.42-3.66-3.21 0-1.51 1.22-2.48 2.72-2.81V5h2.34v1.71c1.63.39 2.44 1.63 2.49 2.97h-1.71c-.04-.97-.56-1.64-1.94-1.64-1.31 0-2.1.59-2.1 1.43 0 .73.57 1.22 2.34 1.67 1.77.46 3.66 1.22 3.66 3.42-.01 1.6-1.21 2.48-2.74 2.77z"
                       opacity=".3" />
@@ -92,7 +141,9 @@
                 </div>
                 <div class="card-item-body">
                   <div class="card-item-stat">
-                    <h4 class="fw-bold">12</h4>
+                    <h4 class="fw-bold">
+                      12
+                    </h4>
                     <!-- <small><b class="text-danger">12%</b> decrease</small> -->
                   </div>
                 </div>
@@ -110,16 +161,22 @@
             <div class="card-header border-bottom-0">
               <div>
                 <label class="main-content-label mb-2">Project Budget</label>
-                <span class="d-block fs-12 mb-0 text-muted">The Project Budget is a tool used by project managers to
+                <span class="d-block fs-12 mb-0 text-muted">
+                  The Project Budget is a tool used by project managers to
                   estimate the
-                  total cost of a project</span>
+                  total cost of a project
+                </span>
               </div>
             </div>
             <div class="card-body">
               <div class>
                 <div class="container project-budget">
-                  <apexchart height="305px" width="100%" type="line" :options="projectOptions" :series="projectData">
-                  </apexchart>
+                  <apexchart
+                    height="305px"
+                    width="100%"
+                    type="line"
+                    :options="projectOptions"
+                    :series="projectData" />
                 </div>
               </div>
             </div>
@@ -139,10 +196,10 @@
               <label class="main-content-label my-auto pt-2">Today tasks</label>
               <div class="ms-auto mt-3 d-flex">
                 <div class="d-flex text-muted fs-13">
-                  <span class="legend bg-primary rounded-circle"></span>Project
+                  <span class="legend bg-primary rounded-circle" />Project
                 </div>
                 <div class="d-flex text-muted fs-13 ms-3">
-                  <span class="legend bg-light rounded-circle"></span>Inprogress
+                  <span class="legend bg-light rounded-circle" />Inprogress
                 </div>
               </div>
             </div>
@@ -154,18 +211,27 @@
         <div class="card-body pt-0">
           <div class="row">
             <div class="col-sm-6 my-auto">
-              <h6 class="mb-3 fw-normal">Project-Budget</h6>
+              <h6 class="mb-3 fw-normal">
+                Project-Budget
+              </h6>
               <div class="text-start">
-                <h3 class="fw-bold me-3 mb-2 text-primary">$5,240</h3>
-                <p class="fs-13 my-auto text-muted">May 28 - June 01 (2018)</p>
+                <h3 class="fw-bold me-3 mb-2 text-primary">
+                  $5,240
+                </h3>
+                <p class="fs-13 my-auto text-muted">
+                  May 28 - June 01 (2018)
+                </p>
               </div>
             </div>
             <div class="col-sm-6 my-auto">
               <div class="forth circle">
                 <div>
-                  <apexchart height="150px" width="100%" type="radialBar" :options="todayTaskChartOptions"
-                    :series="todayTaskSeries">
-                  </apexchart>
+                  <apexchart
+                    height="150px"
+                    width="100%"
+                    type="radialBar"
+                    :options="todayTaskChartOptions"
+                    :series="todayTaskSeries" />
                 </div>
               </div>
             </div>
@@ -180,14 +246,15 @@
 </template>
 
 <script lang="ts" setup>
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import Pageheader from "../../shared/components/pageheader/Pageheader.vue";
-import apexchart from "@/shared/UI/apexcharts.vue";
+import Pageheader from "../../shared/components/pageheader/Pageheader.vue"
+import apexchart from "@/shared/UI/apexcharts.vue"
 
 import {
   projectOptions, projectData
-} from './dahboardData.ts';
+} from "./dahboardData.ts"
 
 </script>
 

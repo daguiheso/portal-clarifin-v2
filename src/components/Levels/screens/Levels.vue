@@ -1,14 +1,22 @@
 <template>
-  <Pageheader heading="Create Model Template" :maintitle='["Home", "Model Template"]'></Pageheader>
+  <Pageheader
+    heading="Create Model Template"
+    :maintitle="[&quot;Home&quot;, &quot;Model Template&quot;]" />
 
   <div>
     <!-- Botón global para añadir ítems al nivel 1 -->
-     <div class="d-flex justify-content-end">
-       <button class="add-level-1-btn" @click="addSibling(null)">Add Category</button>
-     </div>
+    <div class="d-flex justify-content-end">
+      <button
+        class="add-level-1-btn"
+        @click="addSibling(null)">
+        Add Category
+      </button>
+    </div>
 
-    <div v-for="(item, index) in items" :key="item.id"
-         :class="{'item-container': true, 'drag-over-valid': item.isDragOverValid, 'drag-over-invalid': item.isDragOverInvalid }">
+    <div
+      v-for="(item, index) in items"
+      :key="item.id"
+      :class="{'item-container': true, 'drag-over-valid': item.isDragOverValid, 'drag-over-invalid': item.isDragOverInvalid }">
       <div
         class="item"
         :style="{ paddingLeft: `${(item.level) * 20}px` }"
@@ -16,32 +24,43 @@
         @dragstart="onDragStart($event, item, index, items)"
         @dragover="onDragOver($event, item, items)"
         @dragleave="onDragLeave($event, item)"
-        @drop="onDrop($event, index, items)"
-      >
+        @drop="onDrop($event, index, items)">
         <div class="item-content">
           <div class="item-icon">
-            <i class="icon ion-md-pricetags"></i>
+            <i class="icon ion-md-pricetags" />
           </div>
           <input
             v-model="item.name"
             placeholder="Item name"
             class="item-input"
-            @input="updateItemOrder"
-          />
+            @input="updateItemOrder">
 
           <!-- Mostrar el select solo si el ítem es terminal en el nivel actual -->
-          <select v-if="shouldShowSelect(item)" v-model="item.selectedOption" class="item-select">
-            <option v-for="(option, idx) in options" :key="idx" :value="option">{{ option }}</option>
+          <select
+            v-if="shouldShowSelect(item)"
+            v-model="item.selectedOption"
+            class="item-select">
+            <option
+              v-for="(option, idx) in options"
+              :key="idx"
+              :value="option">
+              {{ option }}
+            </option>
           </select>
 
           <!-- Botones de acción -->
           <div class="item-actions">
             <!-- Mostrar el botón "Añadir subnivel" solo si no es el último nivel -->
-            <button v-if="item.level < 2" class="action-btn" @click="addItem(item)">
-              <i class="ri-add-fill"></i>
+            <button
+              v-if="item.level < 2"
+              class="action-btn"
+              @click="addItem(item)">
+              <i class="ri-add-fill" />
             </button>
-            <button class="action-btn" @click="removeItem(item)">
-              <i class="ri-subtract-fill"></i>
+            <button
+              class="action-btn"
+              @click="removeItem(item)">
+              <i class="ri-subtract-fill" />
             </button>
           </div>
         </div>
@@ -49,7 +68,9 @@
 
       <!-- Recursividad para mostrar los subniveles -->
       <template v-if="item.subItems && item.subItems.length > 0">
-        <template v-for="(subItem, subIndex) in item.subItems" :key="subItem.id">
+        <template
+          v-for="(subItem, subIndex) in item.subItems"
+          :key="subItem.id">
           <div
             class="item"
             :style="{ paddingLeft: `${(subItem.level) * 20}px` }"
@@ -58,32 +79,43 @@
             @dragstart="onDragStart($event, subItem, subIndex, item.subItems)"
             @dragover="onDragOver($event, subItem, item.subItems)"
             @dragleave="onDragLeave($event, subItem)"
-            @drop="onDrop($event, subIndex, item.subItems)"
-          >
+            @drop="onDrop($event, subIndex, item.subItems)">
             <div class="item-content">
               <div class="item-icon">
-                <i class="icon ion-md-pricetags"></i>
+                <i class="icon ion-md-pricetags" />
               </div>
               <input
                 v-model="subItem.name"
                 placeholder="Sub-item name"
                 class="item-input"
-                @input="updateItemOrder"
-              />
+                @input="updateItemOrder">
 
               <!-- Mostrar el select solo si el ítem es terminal en el nivel actual -->
-              <select v-if="shouldShowSelect(subItem)" v-model="subItem.selectedOption" class="item-select">
-                <option v-for="(option, idx) in options" :key="idx" :value="option">{{ option }}</option>
+              <select
+                v-if="shouldShowSelect(subItem)"
+                v-model="subItem.selectedOption"
+                class="item-select">
+                <option
+                  v-for="(option, idx) in options"
+                  :key="idx"
+                  :value="option">
+                  {{ option }}
+                </option>
               </select>
 
               <!-- Botones de acción -->
               <div class="item-actions">
                 <!-- Mostrar el botón "Añadir subnivel" solo si no es el último nivel -->
-                <button v-if="subItem.level < 2" class="action-btn" @click="addItem(subItem)">
-                  <i class="ri-add-fill"></i>
+                <button
+                  v-if="subItem.level < 2"
+                  class="action-btn"
+                  @click="addItem(subItem)">
+                  <i class="ri-add-fill" />
                 </button>
-                <button class="action-btn" @click="removeItem(subItem, item.subItems)">
-                  <i class="ri-subtract-fill"></i>
+                <button
+                  class="action-btn"
+                  @click="removeItem(subItem, item.subItems)">
+                  <i class="ri-subtract-fill" />
                 </button>
               </div>
             </div>
@@ -91,7 +123,9 @@
 
           <!-- Recursividad para mostrar los subniveles anidados -->
           <div v-if="subItem.subItems && subItem.subItems.length > 0">
-            <div v-for="(nestedItem, nestedIndex) in subItem.subItems" :key="nestedItem.id">
+            <div
+              v-for="(nestedItem, nestedIndex) in subItem.subItems"
+              :key="nestedItem.id">
               <div
                 class="item"
                 :style="{ paddingLeft: `${(nestedItem.level) * 20}px` }"
@@ -100,32 +134,43 @@
                 @dragstart="onDragStart($event, nestedItem, nestedIndex, subItem.subItems)"
                 @dragover="onDragOver($event, nestedItem, subItem.subItems)"
                 @dragleave="onDragLeave($event, nestedItem)"
-                @drop="onDrop($event, nestedIndex, subItem.subItems)"
-              >
+                @drop="onDrop($event, nestedIndex, subItem.subItems)">
                 <div class="item-content">
                   <div class="item-icon">
-                    <i class="icon ion-md-pricetags"></i>
+                    <i class="icon ion-md-pricetags" />
                   </div>
                   <input
                     v-model="nestedItem.name"
                     placeholder="Nested item name"
                     class="item-input"
-                    @input="updateItemOrder"
-                  />
+                    @input="updateItemOrder">
 
                   <!-- Mostrar el select solo si el ítem es terminal en el nivel actual -->
-                  <select v-if="shouldShowSelect(nestedItem)" v-model="nestedItem.selectedOption" class="item-select">
-                    <option v-for="(option, idx) in options" :key="idx" :value="option">{{ option }}</option>
+                  <select
+                    v-if="shouldShowSelect(nestedItem)"
+                    v-model="nestedItem.selectedOption"
+                    class="item-select">
+                    <option
+                      v-for="(option, idx) in options"
+                      :key="idx"
+                      :value="option">
+                      {{ option }}
+                    </option>
                   </select>
 
                   <!-- Botones de acción -->
                   <div class="item-actions">
                     <!-- Mostrar el botón "Añadir subnivel" solo si no es el último nivel -->
-                    <button v-if="nestedItem.level < 2" class="action-btn" @click="addItem(nestedItem)">
-                      <i class="ri-add-fill"></i>
+                    <button
+                      v-if="nestedItem.level < 2"
+                      class="action-btn"
+                      @click="addItem(nestedItem)">
+                      <i class="ri-add-fill" />
                     </button>
-                    <button class="action-btn" @click="removeItem(nestedItem, subItem.subItems)">
-                      <i class="ri-subtract-fill"></i>
+                    <button
+                      class="action-btn"
+                      @click="removeItem(nestedItem, subItem.subItems)">
+                      <i class="ri-subtract-fill" />
                     </button>
                   </div>
                 </div>
@@ -144,14 +189,15 @@
 </template>
 
 <script lang="ts" setup>
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { ref } from 'vue';
-import Pageheader from "@/shared/components/pageheader/Pageheader.vue";
+import { ref } from "vue"
+import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
 
 const items = ref([
   {
     id: 1,
-    name: '',
+    name: "",
     level: 0,
     priority: 1,
     selectedOption: null,
@@ -159,142 +205,144 @@ const items = ref([
     isDragOverValid: false,
     isDragOverInvalid: false,
   },
-]);
+])
 
 // Variables para drag-and-drop
-let draggedItem: null = null;
-let draggedIndex: null = null;
-let draggedParentArray: any[]|null = null;
+let draggedItem: null = null
+let draggedIndex: null = null
+let draggedParentArray: any[]|null = null
 
-const options = ref(['Opción 1', 'Opción 2', 'Opción 3']);
+const options = ref(["Opción 1", "Opción 2", "Opción 3"])
 
 const shouldShowSelect = (item: { subItems: string|any[]; }) => {
-  return !item.subItems.length;
-};
+  return !item.subItems.length
+}
 
 const addItem = (parentItem: { level: number; subItems: { id: number; name: string; level: any; priority: any; selectedOption: null; subItems: never[]; isDragOverValid: boolean; isDragOverInvalid: boolean; }[]; }) => {
   if (parentItem.level < 2) {
     parentItem.subItems.push({
       id: Date.now(),
-      name: '',
+      name: "",
       level: parentItem.level + 1,
       priority: parentItem.subItems.length + 1,
       selectedOption: null,
       subItems: [],
       isDragOverValid: false,
       isDragOverInvalid: false,
-    });
-    updateItemOrder();
+    })
+    updateItemOrder()
   }
-};
+}
 
 const addSibling = () => {
   items.value.push({
     id: Date.now(),
-    name: '',
+    name: "",
     level: 0,
     priority: items.value.length + 1,
     selectedOption: null,
     subItems: [],
     isDragOverValid: false,
     isDragOverInvalid: false,
-  });
-  updateItemOrder();
-};
+  })
+  updateItemOrder()
+}
 
 const removeItem = (item: any, parentArray = items.value) => {
-  const index = parentArray.indexOf(item);
+  const index = parentArray.indexOf(item)
+
   if (index !== -1) {
-    parentArray.splice(index, 1);
-    updateItemOrder();
+    parentArray.splice(index, 1)
+    updateItemOrder()
   }
-};
+}
 
 // Funciones para drag-and-drop
 const onDragStart = (event: any, item: any, index: any, parentArray: any) => {
-  draggedItem = item;
-  draggedIndex = index;
-  draggedParentArray = parentArray || items.value; // Si es null, está en el primer nivel
-};
+  draggedItem = item
+  draggedIndex = index
+  draggedParentArray = parentArray || items.value // Si es null, está en el primer nivel
+}
 
 const onDragOver = (event: { preventDefault: () => void; }, item: { isDragOverValid: boolean; isDragOverInvalid: boolean; }, parentArray: any) => {
-  event.preventDefault(); // Permite el drop
+  event.preventDefault() // Permite el drop
 
   // Verificar si el arrastre y la caída se realizan dentro del mismo nivel
   if (draggedParentArray === parentArray) {
     // Si es el mismo array, marcar como válido
-    item.isDragOverValid = true;
-    item.isDragOverInvalid = false;
+    item.isDragOverValid = true
+    item.isDragOverInvalid = false
   } else {
     // Si no es el mismo array, marcar como inválido
-    item.isDragOverValid = false;
-    item.isDragOverInvalid = true;
+    item.isDragOverValid = false
+    item.isDragOverInvalid = true
   }
-};
+}
 
 const onDragLeave = (event: any, item: { isDragOverValid: boolean; isDragOverInvalid: boolean; }) => {
   // Restablecer el estado de las clases de arrastre cuando el elemento se deja
-  item.isDragOverValid = false;
-  item.isDragOverInvalid = false;
-};
+  item.isDragOverValid = false
+  item.isDragOverInvalid = false
+}
 
 const onDrop = (event: { preventDefault: () => void; }, index: any, parentArray: any[]) => {
-  event.preventDefault();
+  event.preventDefault()
 
   // Restablecer las clases de arrastre
-  resetDragOverState();
+  resetDragOverState()
 
   // Verificar si el arrastre y la caída se realizan dentro del mismo nivel
   if (draggedParentArray !== parentArray) {
     // Si no son el mismo array, cancelar la operación
-    return;
+    return
   }
 
   // Evitar la acción si se está soltando en la misma posición
-  if (draggedIndex === index && parentArray === draggedParentArray) return;
+  if (draggedIndex === index && parentArray === draggedParentArray) return
 
   // Eliminar el elemento arrastrado de su posición original
-  draggedParentArray.splice(draggedIndex, 1);
+  draggedParentArray.splice(draggedIndex, 1)
 
   // Insertar el elemento arrastrado en la nueva posición
-  parentArray.splice(index, 0, draggedItem);
+  parentArray.splice(index, 0, draggedItem)
 
   // Resetear las variables de drag
-  draggedItem = null;
-  draggedIndex = null;
-  draggedParentArray = null;
+  draggedItem = null
+  draggedIndex = null
+  draggedParentArray = null
 
   // Actualizar el orden de los ítems
-  updateItemOrder();
-};
+  updateItemOrder()
+}
 
 // Función para restablecer el estado de las clases de arrastre
 const resetDragOverState = () => {
   const clearState = (itemsArray: any[]) => {
     itemsArray.forEach((item: { isDragOverValid: boolean; isDragOverInvalid: boolean; subItems: string|any[]; }) => {
-      item.isDragOverValid = false;
-      item.isDragOverInvalid = false;
+      item.isDragOverValid = false
+      item.isDragOverInvalid = false
       if (item.subItems && item.subItems.length) {
-        clearState(item.subItems);
+        clearState(item.subItems)
       }
-    });
-  };
-  clearState(items.value);
-};
+    })
+  }
+
+  clearState(items.value)
+}
 
 // Función para actualizar el orden de prioridad de los ítems
 const updateItemOrder = () => {
   const setPriority = (itemsArray: any[]) => {
     itemsArray.forEach((item: { priority: any; subItems: string|any[]; }, index: number) => {
-      item.priority = index + 1;
+      item.priority = index + 1
       if (item.subItems && item.subItems.length) {
-        setPriority(item.subItems); // Recursión para subniveles
+        setPriority(item.subItems) // Recursión para subniveles
       }
-    });
-  };
+    })
+  }
 
-  setPriority(items.value);
-};
+  setPriority(items.value)
+}
 </script>
 
 <style lang="scss" scoped>

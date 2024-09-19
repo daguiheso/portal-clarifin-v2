@@ -1,36 +1,41 @@
 <template>
-  <div @click="scrollToTop()" :class="['back-to-top-btn', { 'go-top': isTop }]">
-    <div><i class="fe fe-arrow-up fs-14 pr-10"></i></div>
+  <div
+    :class="['back-to-top-btn', { 'go-top': isTop }]"
+    @click="scrollToTop()">
+    <div><i class="fe fe-arrow-up fs-14 pr-10" /></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue"
 
 export default defineComponent({
-  name: 'BackToTop',
-  data() {
+  name: "BackToTop",
+  data () {
     return {
       isTop: false,
-    };
+    }
+  },
+  mounted () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const that = this
+
+    window.addEventListener("scroll", () => {
+      let scrollPos = window.scrollY
+
+      if (scrollPos >= 100) {
+        that.isTop = true
+      } else {
+        that.isTop = false
+      }
+    })
   },
   methods: {
-    scrollToTop() {
-      window.scrollTo(0, 0);
+    scrollToTop () {
+      window.scrollTo(0, 0)
     },
   },
-  mounted() {
-    const that = this;
-    window.addEventListener("scroll", () => {
-      let scrollPos = window.scrollY;
-      if (scrollPos >= 100) {
-        that.isTop = true;
-      } else {
-        that.isTop = false;
-      }
-    });
-  },
-});
+})
 </script>
 
 <style lang="scss" scoped>
