@@ -80,7 +80,7 @@
         <RecursiveMenu
           :menu-data="firstLevelMenuItem"
           :toggle-submenu="toggleSubmenu"
-          :HoverToggleInnerMenuFn="HoverToggleInnerMenuFn"
+          :hover-toggle-inner-menu-fn="HoverToggleInnerMenuFn"
           :level="level + 1" />
       </template>
     </li>
