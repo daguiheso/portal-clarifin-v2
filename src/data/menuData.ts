@@ -1,35 +1,35 @@
-export let menuData = [
+export const menuData = [
   //title
   {
     headTitle: "dashboard",
   },
   {
-    path: `/`,
-    title: "Dashboard",
+    path: "/home",
+    title: "Home",
     type: "link",
     icon: "ti-home",
     active: true,
     defaultActive: true,
   },
   {
-    path: `/levels`,
-    title: "Create Model Template",
+    path: "/levels",
+    title: "Crear modelo",
     type: "link",
     icon: "ti-arrow-right",
     active: true,
     defaultActive: false,
   },
   {
-    path: `/upload`,
-    title: "Upload templates",
+    path: "/upload",
+    title: "Cargar plantilla",
     type: "link",
     icon: "ti-upload",
     active: true,
     defaultActive: false,
   },
   {
-    path: `/users`,
-    title: "Users",
+    path: "/users",
+    title: "Usuarios",
     type: "link",
     icon: "ti-user",
     active: true,
@@ -114,4 +114,4 @@ export let menuData = [
   //     },
   //   ],
   // },
-];
+]

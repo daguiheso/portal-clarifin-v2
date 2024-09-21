@@ -1,22 +1,24 @@
-import { createRouter, createWebHistory } from "vue-router";
-import MainDashboard from "../shared/layouts/MainDashboard.vue";
-import Errorpagesinfo from "../shared/layouts/errorpagesinfo.vue";
+import { createRouter, createWebHistory } from "vue-router"
+import MainDashboard from "../shared/layouts/MainDashboard.vue"
+import Errorpagesinfo from "../shared/layouts/errorpagesinfo.vue"
+import { uploadTemplateRoutes } from "@/MFEs/UploadTemplate/routes"
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     component: MainDashboard,
     children: [
       {
-        path: `/`,
+        path: "/home",
         name: "Maindashboard",
         component: () => import("../components/dashboard/Dashboard.vue"),
       },
       {
-        path: `/levels`,
+        path: "/levels",
         name: "Level",
         component: () => import("../components/Levels/screens/Levels.vue"),
-      }
+      },
+      ...uploadTemplateRoutes,
     ],
   },
   {
@@ -43,11 +45,11 @@ const routes = [
     name: "404page",
     component: () => import("../components/custompages/Error404.vue"),
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-});
+})
 
-export default router;
+export default router

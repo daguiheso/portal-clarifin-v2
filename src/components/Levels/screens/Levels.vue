@@ -1,6 +1,6 @@
 <template>
   <Pageheader
-    heading="Create Model Template"
+    heading="Crear Modelo"
     :maintitle="[&quot;Home&quot;, &quot;Model Template&quot;]" />
 
   <div>
