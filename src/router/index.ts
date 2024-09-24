@@ -14,9 +14,9 @@ const routes = [
         component: () => import("../components/dashboard/Dashboard.vue"),
       },
       {
-        path: "/levels",
-        name: "Level",
-        component: () => import("../components/Levels/screens/Levels.vue"),
+        path: "/models",
+        name: "Modelos",
+        component: () => import("../components/Models/screens/Models.vue"),
       },
       ...uploadTemplateRoutes,
     ],

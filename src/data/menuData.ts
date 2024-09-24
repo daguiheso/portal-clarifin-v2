@@ -12,7 +12,7 @@ export const menuData = [
     defaultActive: true,
   },
   {
-    path: "/levels",
+    path: "/models",
     title: "Crear modelo",
     type: "link",
     icon: "ti-arrow-right",
