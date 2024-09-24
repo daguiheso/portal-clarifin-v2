@@ -1,6 +1,6 @@
-import { createToast, withProps, type ToastType, clearToasts } from "mosha-vue-toastify"
+import { createToast, withProps, clearToasts } from "mosha-vue-toastify"
 import "mosha-vue-toastify/dist/style.css"
-import useContainerStore from "../container/store"
+// import useContainerStore from "../container/store"
 
 import ClaSnackBar from "@/MFEs/UploadTemplate/components/ClaSnackBar.vue";
 
@@ -12,20 +12,20 @@ interface SnackBarProps {
   showCloseButton?: boolean;
 }
 
-interface ActionResult {
-  title: string
-  message?: string
-  hasCloseButton?: boolean
-  icon?: "error" | "success" | "warning"| "info" | "otp" | null
-  labelPrimary?: string
-  labelSecondary?: string
-  isLoadingBtnPrimary?: boolean
-  actionPrimary?: () => void
-  actionSecondary?: () => void
-  autoClose?: boolean
-  closeTime?: number
-  themeBtnPrimary?: any
-}
+// interface ActionResult {
+//   title: string
+//   message?: string
+//   hasCloseButton?: boolean
+//   icon?: "error" | "success" | "warning"| "info" | "otp" | null
+//   labelPrimary?: string
+//   labelSecondary?: string
+//   isLoadingBtnPrimary?: boolean
+//   actionPrimary?: () => void
+//   actionSecondary?: () => void
+//   autoClose?: boolean
+//   closeTime?: number
+//   themeBtnPrimary?: any
+// }
 
 export const showSnackBar = (props: Record<string, unknown>) => {
 
@@ -44,18 +44,18 @@ export const showSnackBar = (props: Record<string, unknown>) => {
 }
 
 const useActionResult = () => {
-  const store = useContainerStore()
+  // const store = useContainerStore()
 
-  const addActionResult = (action: ActionResult) => {
-    store.actionResult = action
-  }
+  // const addActionResult = (action: ActionResult) => {
+  //   store.actionResult = action
+  // }
 
   const addSnackBarActionResult = (props: SnackBarProps) => {
     showSnackBar(props as  Record<string, unknown>)
   }
 
   return {
-    addActionResult,
+    // addActionResult,
     addSnackBarActionResult,
     showSnackBar
   }

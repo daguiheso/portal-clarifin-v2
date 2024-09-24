@@ -11,7 +11,9 @@
         color="#3629d3"
         error-color="#ff7070"
         next-button-text="Cargar"
-        back-button-text="Atrás">
+        back-button-text="Atrás"
+        finish-button-text="Terminar"
+        @on-complete="goToHome">
 
         <!-- <template #next>
           <button
@@ -67,10 +69,10 @@
 
               <div class="d-flex justify-content-around">
                 <div class="form-group mb-3 col-12 col-md-5">
-                  <label class="control-label fw-semibold mb-2">Fecha a cargar</label>
+                  <label class="control-label fw-semibold mb-2">Mes a cargar</label>
                   <input
                     v-model="dateImport"
-                    placeholder="Fecha a cargar"
+                    placeholder="Mes a cargar"
                     class="form-control"
                     type="month"
                     min="2022-010"
@@ -107,7 +109,9 @@
                 :current-file-type="{ extensions: allowedExtensions }"
                 :upload-from-device-label="'Upload from device'"
                 :max-size-label="'Max size 2MB'"
+                :drag-file-label="'Drag your file here'"
                 :file-upload="fileContent"
+                :disabled="false"
                 @files-dropped="onFileChange"
                 @files-input="onFileChange"
                 @deleted-file="onFileDelete" />
@@ -128,14 +132,34 @@
           <div class="col-xs-12 text-start pb-4">
             <div class="col-md-12">
               <div v-if="store.uploadFile.error">
-                <h2 class="main-content-title fs-24 mb-5">
+                <h2 class="main-content-title fs-24 mb-5 text-center">
                   No se pudo procesar la plantilla
                 </h2>
                 <div
                   class="alert alert-secondary"
                   role="alert">
-                  {{ store.uploadFile.error }}
+                  {{ store.uploadFile.error.errorDescription }}
                 </div>
+
+                <template v-if="store.uploadFile.error.errors.length">
+                  <p>
+                    Revisa los siguientes puntos:
+                  </p>
+                  <ul>
+                    <li
+                      v-for="error in store.uploadFile.error.errors"
+                      :key="error"
+                      class="mb-2">
+                      {{ error }}
+                    </li>
+                  </ul>
+                </template>
+              </div>
+
+              <div v-else>
+                <h2 class="main-content-title fs-24 mb-5 text-center">
+                  Plantilla procesada correctamente
+                </h2>
               </div>
 
             </div>
@@ -150,6 +174,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue"
+import { useRouter } from "vue-router"
 
 import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
 
@@ -172,9 +197,10 @@ const business = ref<any>(null)
 const format = ref<any>(null)
 const dateImport = ref<any>(null)
 const isStep1Dirty = ref(false)
+const router = useRouter()
 const { addSnackBarActionResult } = useActionResult()
 
-const allowedExtensions = [".csv", ".xlsx", ".xls"]
+const allowedExtensions = [".xlsx", ".xls"]
 
 const fileContent = ref<File | null>(null)
 const dragAndDrop = ref()
@@ -186,9 +212,22 @@ const isValidStep1 = computed(() => {
   return searchSelectedValue.value && business.value && format.value && dateImport.value && fileContent.value
 })
 
+// interface UploadFileData {
+//   status: string;
+//   [key: string]: any;
+// }
+
+// const isOk = computed(() => {
+//   const data = store.uploadFile.data as UploadFileData
+
+//   return data?.status === "SUCCESS"
+// })
+
 const selectedClient = () => {
   store.getBusiness(searchSelectedValue.value.id)
-  store.getFormatsByClientId(searchSelectedValue.value.id)
+  store.getFormats()
+
+  business.value = null
 }
 
 const nameWithLang = ({ name }: any) => {
@@ -223,7 +262,7 @@ const uploadFile = async () => {
     idClient: searchSelectedValue.value.id,
     idBusiness: business.value.id,
     idFormat: format.value.id,
-    dateImport: `${dateImport.value}-01`,
+    dateImport: `${dateImport.value}-31`,
     // dateImport: "2023-01-01",
     file: blob
   })
@@ -258,6 +297,9 @@ const onFileChange = (file: File) => {
 
   fileContent.value = file
 }
+
+const goToHome = () => router.push("/home")
+
 </script>
 
 <style lang="scss">

@@ -1,5 +1,5 @@
-import useContainerStore from "@/container/store"
-import { useRouter } from "vue-router"
+// import useContainerStore from "@/container/store"
+// import { useRouter } from "vue-router"
 import useActionResult from "@/hooks/useActionResult"
 
 const { showSnackBar } = useActionResult()
@@ -13,28 +13,28 @@ interface NonBlockingCustomError extends CustomError {
   contactSupport?: boolean
 }
 
-interface SemiBlockingCustomError extends CustomError {
-  path?: string
-}
+// interface SemiBlockingCustomError extends CustomError {
+//   path?: string
+// }
 
-interface ParsedError {
-  error: unknown
-  title: string
-  message: string
-  path?: string
-}
+// interface ParsedError {
+//   error: unknown
+//   title: string
+//   message: string
+//   path?: string
+// }
 
 const useErrorManagement = () => {
-  const store = useContainerStore()
+  // const store = useContainerStore()
 
-  const router = useRouter()
+  // const router = useRouter()
 
-  const cleanError = () => (store.semiBlockingError = null)
+  // const cleanError = () => (store.semiBlockingError = null)
 
 
-  const addSemiBlockingError = (error: SemiBlockingCustomError) => {
-    // store.semiBlockingError = getParsedError(error)
-  }
+  // const addSemiBlockingError = (error: SemiBlockingCustomError) => {
+  //   // store.semiBlockingError = getParsedError(error)
+  // }
 
   const addSnackbarError = (error: NonBlockingCustomError) => { // TODO: Replace this for nonBlockingError the complete migration is ready
     const parsedError: Record<string, unknown> = {
@@ -60,19 +60,19 @@ const useErrorManagement = () => {
   //   return customError
   // }
 
-  const handlePrimaryAction = () => {
-    if (store.semiBlockingError?.path) {
-      router.push(store.semiBlockingError?.path)
-    } else {
-      window.location.href = "/"
-    }
-    cleanError()
-  }
+  // const handlePrimaryAction = () => {
+  //   if (store.semiBlockingError?.path) {
+  //     router.push(store.semiBlockingError?.path)
+  //   } else {
+  //     window.location.href = "/"
+  //   }
+  //   cleanError()
+  // }
 
 
   return {
-    addSemiBlockingError,
-    handlePrimaryAction,
+    // addSemiBlockingError,
+    // handlePrimaryAction,
     addSnackbarError
   }
 }

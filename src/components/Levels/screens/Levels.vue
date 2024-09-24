@@ -1,7 +1,7 @@
 <template>
   <Pageheader
     heading="Crear Modelo"
-    :maintitle="[&quot;Home&quot;, &quot;Model Template&quot;]" />
+    :maintitle="['Home', 'Crear Modelo']" />
 
   <div>
     <!-- Botón global para añadir ítems al nivel 1 -->

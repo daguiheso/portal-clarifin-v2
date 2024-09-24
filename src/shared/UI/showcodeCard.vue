@@ -33,8 +33,8 @@
       :class="customCardFooterClass">
       <code class="language-html">
         <pre class="language-html">
-{{ code.script }}
-</pre>
+          {{ code?.script }}
+        </pre>
       </code>
     </div>
   </div>

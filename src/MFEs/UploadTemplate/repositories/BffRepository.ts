@@ -12,8 +12,8 @@ export default {
     return BffClient.get(`${v1BaseUrl}/client/${clientId}/business`)
   },
 
-  getFormatsByClientId (clientId: number) {
-    return BffClient.get(`${v1BaseUrl}/format-file/client/${clientId}`)
+  getFormats () {
+    return BffClient.get(`${v1BaseUrl}/format-file`)
   },
 
   async uploadFile (data: {
@@ -25,11 +25,10 @@ export default {
   }) {
     const formData = new FormData()
 
-    // Agregar los campos al FormData
-    formData.append("file", data.file)  // El archivo
-    formData.append("idClient", String(data.idClient))  // Convertir a string si es necesario
-    formData.append("idBusiness", String(data.idBusiness))  // Mantenerlo como string
-    formData.append("idFormat", String(data.idFormat))  // Convertir a string
+    formData.append("file", data.file)
+    formData.append("idClient", String(data.idClient))
+    formData.append("idBusiness", String(data.idBusiness))
+    formData.append("idFormat", String(data.idFormat))
     formData.append("dateImport", data.dateImport)
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

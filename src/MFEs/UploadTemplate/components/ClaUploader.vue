@@ -83,13 +83,14 @@ interface Props {
   disabled: boolean;
   uploadFromDeviceLabel: string;
   maxSizeLabel: string;
-  dragFileLabel?: string;
+  dragFileLabel: string;
 }
 
 const activeDrop = ref(false)
 
 const props = withDefaults(defineProps<Props>(), {
-  disabled: false
+  disabled: false,
+  dragFileLabel: ""
 })
 
 const onDrop = (e: any) => {

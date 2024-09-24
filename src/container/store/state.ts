@@ -1,6 +1,4 @@
-import { State } from "../interfaces/state"
-
-const state: State = {
+const state = {
 
 }
 

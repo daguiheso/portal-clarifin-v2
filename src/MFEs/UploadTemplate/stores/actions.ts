@@ -46,14 +46,14 @@ export default {
     }
   },
 
-  async getFormatsByClientId (clientId: number) {
+  async getFormats () {
     const store = useUploadTemplateStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.formats.isLoading = true
 
     try {
-      const result = await bffRepository.getFormatsByClientId(clientId)
+      const result = await bffRepository.getFormats()
 
       store.formats.data = result.data
 
@@ -79,7 +79,9 @@ export default {
     store.uploadFile.isLoading = true
 
     try {
-      await bffRepository.uploadFile(data)
+      const result = await bffRepository.uploadFile(data)
+
+      store.uploadFile.data = result.response.data
 
       return true
 
@@ -88,7 +90,7 @@ export default {
         addSnackbarError({ error: error.message, errorKey: "bulkMovementUpload"})
         store.uploadFile.error = error
       } else {
-        store.uploadFile.error = error.response.data.errorDescription
+        store.uploadFile.error = error.response.data
       }
 
       return true

@@ -3,7 +3,7 @@
   <!--Row-->
   <Pageheader
     heading="Welcome To Dashboard"
-    :maintitle="[&quot;Home&quot;, &quot;Project Dashboard&quot;]" />
+    :maintitle="['Home']" />
 
   <div class="row row-sm">
     <div class="col-sm-12 col-lg-12 col-xl-8">
