@@ -3,7 +3,7 @@ export interface ApiResponse<T> {
   isLoading: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
-  paginate?: Partial<PaginateInterface>
+  // paginate?: Partial<PaginateInterface>
 }
 
 export interface PaginateInterface {

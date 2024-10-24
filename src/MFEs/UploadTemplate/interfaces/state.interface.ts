@@ -6,4 +6,5 @@ export interface State {
 	formats: ApiResponse<unknown>
 	completedSteps: number[]
 	uploadFile: ApiResponse<unknown>
+	accounting: ApiResponse<unknown>
 }

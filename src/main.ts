@@ -10,12 +10,11 @@ import "vue3-colorpicker/style.css"
 import { createPinia } from "pinia"
 
 const app = createApp(App)
-const pinia = createPinia()
 
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Simplebar", simplebar)
 app.use(router)
 app.use(Vue3ColorPicker)
-app.use(pinia)
+app.use(createPinia())
 app.mount("#app")
 

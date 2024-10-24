@@ -1,32 +1,36 @@
 import { State } from "../interfaces/state.interface"
 
 const state: State = {
-  clients: {
-    data: [],
-    error: null,
-    isLoading: false
-  },
-  business: {
-    data: [],
-    error: null,
-    isLoading: false
-  },
-  formats: {
-    data: [],
-    error: null,
-    isLoading: false
-  },
-  uploadFile: {
-    data: {},
-    error: null,
-    isLoading: false
-  },
   accounting: {
     data: [],
     error: null,
     isLoading: false
   },
-  completedSteps: []
+  templateCategories: {
+    data: [],
+    error: null,
+    isLoading: false
+  },
+  createTemplateCategory: {
+    data: {},
+    error: null,
+    isLoading: false
+  },
+  levels: {
+    data: [],
+    error: null,
+    isLoading: false
+  },
+  levelsByBusiness: {
+    data: [],
+    error: null,
+    isLoading: false
+  },
+  createCategoriesByTemplate: {
+    data: {},
+    error: null,
+    isLoading: false
+  }
 }
 
 export default state

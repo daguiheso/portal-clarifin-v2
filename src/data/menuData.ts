@@ -28,6 +28,14 @@ export const menuData = [
     defaultActive: false,
   },
   {
+    path: "/unclassified-categories",
+    title: "Categorías a Clasificar",
+    type: "link",
+    icon: "ti-upload",
+    active: true,
+    defaultActive: false,
+  },
+  {
     path: "/users",
     title: "Usuarios",
     type: "link",

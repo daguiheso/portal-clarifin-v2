@@ -41,9 +41,9 @@
                   <label class="control-label fw-semibold mb-2">Cliente</label>
 
                   <multiselect1
-                    v-model="searchSelectedValue"
+                    v-model="clientSelected"
                     :show-labels="false"
-                    :options="store.clients.data"
+                    :options="clients.data"
                     :custom-label="nameWithLang"
                     placeholder="Select one"
                     label="name"
@@ -55,9 +55,9 @@
                   <label class="control-label fw-semibold mb-2">Negocio</label>
 
                   <multiselect1
-                    v-model="business"
+                    v-model="businessSelected"
                     :show-labels="false"
-                    :options="store.business.data"
+                    :options="business.data"
                     :custom-label="nameWithLang"
                     placeholder="Select one"
                     label="name"
@@ -131,7 +131,7 @@
         <tab-content title="Resultado">
           <div class="col-xs-12 text-start pb-4">
             <div class="col-md-12">
-              <div v-if="store.uploadFile.error">
+              <template v-if="store.uploadFile.error">
                 <h2 class="main-content-title fs-24 mb-5 text-center">
                   No se pudo procesar la plantilla
                 </h2>
@@ -141,7 +141,7 @@
                   {{ store.uploadFile.error.errorDescription }}
                 </div>
 
-                <template v-if="store.uploadFile.error.errors.length">
+                <template v-if="store.uploadFile.error.errors?.length">
                   <p>
                     Revisa los siguientes puntos:
                   </p>
@@ -154,13 +154,25 @@
                     </li>
                   </ul>
                 </template>
-              </div>
+              </template>
 
-              <div v-else>
+              <template v-else>
                 <h2 class="main-content-title fs-24 mb-5 text-center">
                   Plantilla procesada correctamente
                 </h2>
-              </div>
+
+                <div
+                  v-if="Array.isArray(store.accounting.data) && store.accounting.data.length"
+                  class="text-center mt-5">
+                  <p>Se han encontrado categorias aún sin clasificar.</p>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="goToUnclassifiedCategories">
+                    Clasificar categorias
+                  </button>
+                </div>
+              </template>
 
             </div>
           </div>
@@ -170,6 +182,7 @@
 
     </div>
   </div>
+
 </template>
 
 <script lang="ts" setup>
@@ -187,17 +200,18 @@ import "vue3-form-wizard/dist/style.css"
 // import Datepicker1 from "@vuepic/vue-datepicker"
 import useActionResult from "@/hooks/useActionResult"
 
-import useUploadTemplateStore from "../stores"
+import useUnclasifiedCategoriesStore from "../stores"
 import ClaUploader from "../components/ClaUploader.vue"
+import { useClientsBusiness } from "@/hooks/useClientsBusiness"
 
-
-const store = useUploadTemplateStore()
-const searchSelectedValue = ref<any>(null)
-const business = ref<any>(null)
+const store = useUnclasifiedCategoriesStore()
+const clientSelected = ref<any>(null)
+const businessSelected = ref<any>(null)
 const format = ref<any>(null)
 const dateImport = ref<any>(null)
 const isStep1Dirty = ref(false)
 const router = useRouter()
+const { getClients, getBusiness, clients, business } = useClientsBusiness()
 const { addSnackBarActionResult } = useActionResult()
 
 const allowedExtensions = [".xlsx", ".xls"]
@@ -206,10 +220,12 @@ const fileContent = ref<File | null>(null)
 const dragAndDrop = ref()
 const showErrors = ref(false)
 
-store.getClients()
+getClients()
+
+// store.getClients()
 
 const isValidStep1 = computed(() => {
-  return searchSelectedValue.value && business.value && format.value && dateImport.value && fileContent.value
+  return clientSelected.value && businessSelected.value && format.value && dateImport.value && fileContent.value
 })
 
 // interface UploadFileData {
@@ -224,10 +240,10 @@ const isValidStep1 = computed(() => {
 // })
 
 const selectedClient = () => {
-  store.getBusiness(searchSelectedValue.value.id)
+  getBusiness(clientSelected.value.id)
   store.getFormats()
 
-  business.value = null
+  businessSelected.value = null
 }
 
 const nameWithLang = ({ name }: any) => {
@@ -258,15 +274,17 @@ const uploadFile = async () => {
 
   showErrors.value = false
 
-  return store.uploadFile({
-    idClient: searchSelectedValue.value.id,
-    idBusiness: business.value.id,
+  const result = await store.uploadFile({
+    idClient: clientSelected.value.id,
+    idBusiness: businessSelected.value.id,
     idFormat: format.value.id,
     dateImport: `${dateImport.value}-31`,
-    // dateImport: "2023-01-01",
     file: blob
   })
 
+  if (result) getAccounting()
+
+  return true
   // store.resetUploadStatus()
 
   // localLoading.value = false
@@ -296,6 +314,21 @@ const onFileChange = (file: File) => {
   }
 
   fileContent.value = file
+}
+
+const getAccounting = () => {
+  store.getAccounting({
+    clientId: clientSelected.value.id,
+    businessId: businessSelected.value.id,
+    params: {
+      start_date: `${dateImport.value}-1`,
+      end_date: `${dateImport.value}-31`
+    }
+  })
+}
+
+const goToUnclassifiedCategories = () => {
+  router.push(`/unclassified-categories?client=${clientSelected.value.id}&business=${businessSelected.value.id}&start_date=${dateImport.value}-1&end_date=${dateImport.value}-31`)
 }
 
 const goToHome = () => router.push("/home")

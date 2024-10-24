@@ -1,8 +1,8 @@
-export const uploadTemplateRoutes = [
+export const unclassifiedCategoriesRoutes = [
   {
-    path: "/upload",
-    name: "upload-template",
-    component: () => import("../views/HandleUpload.vue"),
+    path: "/unclassified-categories",
+    name: "Categorías no Clasificadas",
+    component: () => import("../views/UnclassifiedCategories.vue"),
     // children: [
     //   {
     //     path: "step-one",

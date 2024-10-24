@@ -1,4 +1,5 @@
 import BffClient from "@/commons/repositories/clients/BffClient"
+import { objectToQueryParams } from "@/commons/utils"
 
 const v1BaseUrl = "/v1/entity"
 
@@ -41,5 +42,13 @@ export default {
 
 
     return { response: uploadFileResponse }
-  }
+  },
+
+  async getAccounting ({ clientId, businessId, params }: { clientId: string, businessId: string, params: any }) {
+
+    const result = await BffClient.get(`${v1BaseUrl}/client/${clientId}/business/${businessId}/accounting${objectToQueryParams(params)}`)
+
+    return result.data.accounting.filter((item: any) => item.transactional === "S")
+  },
+
 }

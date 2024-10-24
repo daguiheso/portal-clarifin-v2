@@ -4,7 +4,7 @@ import getters from "./getters"
 import actions from "./actions"
 
 export default defineStore({
-  id: "unclasifiedCategories",
+  id: "uploadTemplate",
   state: () => state,
   getters,
   actions

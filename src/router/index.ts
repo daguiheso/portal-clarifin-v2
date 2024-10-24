@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import MainDashboard from "../shared/layouts/MainDashboard.vue"
 import Errorpagesinfo from "../shared/layouts/errorpagesinfo.vue"
 import { uploadTemplateRoutes } from "@/MFEs/UploadTemplate/routes"
+import { unclassifiedCategoriesRoutes } from "@/MFEs/UnclassifiedCategories/routes"
 
 const routes = [
   {
@@ -19,6 +20,7 @@ const routes = [
         component: () => import("../components/Models/screens/Models.vue"),
       },
       ...uploadTemplateRoutes,
+      ...unclassifiedCategoriesRoutes,
     ],
   },
   {

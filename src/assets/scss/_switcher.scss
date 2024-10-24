@@ -702,7 +702,7 @@
     }
 
     &[data-theme-mode="light"] {
-        --menu-bg: #6259ca;
+        --menu-bg: var(--primary-color);
 
         &[data-bg-img="bgimg1"] {
             --menu-bg: url("/assets/images/menu-bg-images/bg-img1.jpg");
@@ -745,7 +745,7 @@
     }
 
     &[data-theme-mode="light"] {
-        --menu-bg: #6259ca;
+        --menu-bg: var(--primary-color);
         --menu-prime-color: rgba(255, 255, 255, 0.4);
     }
 }

@@ -82,6 +82,7 @@ export default {
       const result = await bffRepository.uploadFile(data)
 
       store.uploadFile.data = result.response.data
+      store.uploadFile.error = null
 
       return true
 
@@ -93,10 +94,30 @@ export default {
         store.uploadFile.error = error.response.data
       }
 
-      return true
+      return false
 
     } finally {
       store.uploadFile.isLoading = false
+    }
+  },
+
+  async getAccounting (data: { clientId: string, businessId: string, params: any }) {
+    const store = useUploadTemplateStore()
+    const { addSnackbarError } = useErrorManagement()
+
+    store.accounting.isLoading = true
+
+    try {
+      const result = await bffRepository.getAccounting(data)
+
+      store.accounting.data = result
+
+    } catch (error: unknown) {
+      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
+      store.accounting.error = error
+
+    } finally {
+      store.accounting.isLoading = false
     }
   },
 
