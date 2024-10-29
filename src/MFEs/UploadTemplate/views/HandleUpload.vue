@@ -45,21 +45,21 @@
                     :show-labels="false"
                     :options="clients.data"
                     :custom-label="nameWithLang"
-                    placeholder="Select one"
+                    placeholder="Selecciona un cliente"
                     label="name"
                     track-by="name"
                     @select="selectedClient" />
                 </div>
 
                 <div class="form-group col-12 col-md-5">
-                  <label class="control-label fw-semibold mb-2">Negocio</label>
+                  <label class="control-label fw-semibold mb-2">Compañia / Sociedad</label>
 
                   <multiselect1
                     v-model="businessSelected"
                     :show-labels="false"
                     :options="business.data"
                     :custom-label="nameWithLang"
-                    placeholder="Select one"
+                    placeholder="Selecciona una compañia"
                     label="name"
                     track-by="name" />
                 </div>
@@ -96,7 +96,7 @@
                     v-model="format"
                     :show-labels="false"
                     :options="store.formats.data"
-                    placeholder="Select one"
+                    placeholder="Selecciona un formato"
                     label="description"
                     track-by="description" />
 

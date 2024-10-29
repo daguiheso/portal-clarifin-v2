@@ -1,14 +1,24 @@
 <template>
-  <Pageheader
-    heading="Categorias a Clasificar"
-    :maintitle="['Home', 'Categorias a clasificar']" />
+
+  <div class="d-flex justify-content-between align-items-center">
+    <Pageheader
+      heading="LLaves"
+      :maintitle="['Home', 'LLaves']" />
+
+    <button
+      type="button"
+      class="btn btn-primary btn-wave"
+      data-bs-target="#modaldemo12"
+      data-bs-toggle="modal"
+      href="javascript:;">
+      Crear llave
+    </button>
+  </div>
 
   <div class="row justify-content-center upload-template">
     <div class="bg-white py-4 px-5 col col-12 card">
 
-      <div
-        v-if="!areThereQueryParams"
-        class="col-xs-12 text-start pb-4">
+      <div class="col-xs-12 text-start pb-4">
         <div class="col-md-12">
 
           <div class="d-flex justify-content-around flex-wrap">
@@ -46,35 +56,32 @@
         </div>
       </div>
 
-      <div class="table-responsive">
+      <div
+        v-if="store.levelsByBusiness.data.length"
+        class="table-responsive">
         <table class="table text-nowrap">
           <thead>
             <tr>
               <th scope="col">
-                Categoria
+                LLave
               </th>
-              <th scope="col">
-                Código
-              </th>
-              <th scope="col">
+              <!-- <th scope="col">
                 Tag
               </th>
               <th scope="col">
                 LLaves
-              </th>
+              </th> -->
             </tr>
           </thead>
 
           <tbody>
             <tr
-              v-for="(item, index) in listAccounting"
+              v-for="(item, index) in store.levelsByBusiness.data"
               :key="index">
 
-              <td>{{ item.description }}</td>
-              <td>{{ item.code }}</td>
-              <td><span class="badge bg-danger-transparent">No clasificada</span></td>
+              <td>{{ item?.name }}</td>
 
-              <td class="col-4">
+              <!-- <td class="col-4">
                 <div class="">
                   <multiselect1
                     v-model="item.level"
@@ -122,12 +129,69 @@
                     </template>
                   </multiselect1>
                 </div>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
       </div>
 
+      <div
+        v-else
+        class="text-center">
+        <p>No hay llaves creadas</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div
+    id="modaldemo12"
+    class="modal fade">
+    <div
+      class="modal-dialog"
+      role="document">
+      <div class="modal-content modal-content-demo">
+        <div class="modal-header">
+          <h6 class="modal-title">
+            Creación de llave
+          </h6>
+          <button
+            aria-label="Close"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            type="button" />
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="col-10 offset-1">
+              <label
+                for="input-placeholder"
+                class="form-label">
+                Nombre de la llave
+              </label>
+              <input
+                id="input-placeholder"
+                v-model="nameNewKey"
+                type="text"
+                class="form-control"
+                placeholder="Nombre de la llave">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn ripple btn-danger"
+            data-bs-dismiss="modal"
+            type="button">
+            Cancelar
+          </button>
+          <button
+            class="btn btn-primary btn-wave"
+            type="button">
+            Crear
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -136,7 +200,6 @@
 import { computed, ref } from "vue"
 import { format, subMonths } from "date-fns"
 import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
-import { useRoute } from "vue-router"
 
 import multiselect1 from "vue-multiselect"
 import "vue-multiselect/dist/vue-multiselect.css"
@@ -152,13 +215,8 @@ const clientSelected = ref<any>(null)
 const { getClients, getBusiness, clients, business } = useClientsBusiness()
 const businessSelected = ref<any>(null)
 const templateCategorySelected = ref<any>(null)
-const currentLevelsFilter = ref<"all" | "own" | "base">("all")
-const route = useRoute()
-
-const queryParamClient = route.query.client
-const queryParamBusiness = route.query.business
-const queryParamStartDate = route.query.start_date
-const queryParamEndDate = route.query.end_date
+const nameNewKey = ref<string>("")
+// const currentLevelsFilter = ref<"all" | "own" | "base">("all")
 
 store.accounting = {
   data: [],
@@ -169,23 +227,6 @@ store.accounting = {
 getClients()
 store.getLevels()
 
-const listAccounting = computed(() => Array.isArray(store.accounting.data) ? [...store.accounting.data] : [])
-
-const filteredLevels = computed(() => {
-  if (currentLevelsFilter.value === "all") return levelsAndBusinessLevels.value
-
-  if (currentLevelsFilter.value === "own") return store.levelsByBusiness.data
-
-  return store.levels.data
-})
-
-const levelsAndBusinessLevels = computed(() => {
-  return [
-    ...store.levels.data,
-    ...store.levelsByBusiness.data
-  ]
-})
-
 const selectClient = () => {
   getBusiness(clientSelected.value.id)
 
@@ -193,9 +234,9 @@ const selectClient = () => {
   store.getTemplateCategoriesByClient(clientSelected.value.id)
 }
 
-const setFilterLevels = (type: "all" | "own" | "base") => {
-  currentLevelsFilter.value = type
-}
+// const setFilterLevels = (type: "all" | "own" | "base") => {
+//   currentLevelsFilter.value = type
+// }
 
 const selectBusiness = async () => {
   getUnclassifiedCategoriesByBusinessFor6MonthsAgo()
@@ -258,51 +299,18 @@ const getUnclassifiedCategoriesByBusinessFor6MonthsAgo = () => {
   })
 }
 
-const handleSelectLevel = (item: any) => {
-  store.createCategoriesByTemplateClient({
-    clientId: clientSelected.value.id,
-    businessId: businessSelected.value.id,
-    templateId: templateCategorySelected.value,
-    data: {
-      code: item.code,
-      idLevel: item.level.id
-    }
-  })
-}
+// const handleSelectLevel = (item: any) => {
+//   store.createCategoriesByTemplateClient({
+//     clientId: clientSelected.value.id,
+//     businessId: businessSelected.value.id,
+//     templateId: templateCategorySelected.value,
+//     data: {
+//       code: item.code,
+//       idLevel: item.level.id
+//     }
+//   })
+// }
 
-const getUnclassifiedCategoriesByBusiness = (startDate: any, endDate: any) => {
-  store.getUnclassifiedCategoriesByBusiness({
-    clientId: clientSelected.value.id,
-    businessId: businessSelected.value.id,
-    params: {
-      start_date: startDate,
-      end_date: endDate
-    }
-  })
-}
-
-const areThereQueryParams = computed(() => Object.keys(route.query).length)
-
-const init = async () => {
-  if (Object.keys(route.query).length) {
-
-    clientSelected.value = { id: queryParamClient }
-    businessSelected.value = { id: queryParamBusiness }
-
-    await store.getTemplateCategoriesByClient(queryParamClient as string)
-
-    getUnclassifiedCategoriesByBusiness(queryParamStartDate, queryParamEndDate)
-
-    await setTemplateCategory()
-
-    store.getLevelsByBusiness({
-      clientId: clientSelected.value.id,
-      businessId: businessSelected.value.id
-    })
-  }
-}
-
-init()
 </script>
 
 <style lang="scss">

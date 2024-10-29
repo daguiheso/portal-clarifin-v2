@@ -3,6 +3,7 @@ import MainDashboard from "../shared/layouts/MainDashboard.vue"
 import Errorpagesinfo from "../shared/layouts/errorpagesinfo.vue"
 import { uploadTemplateRoutes } from "@/MFEs/UploadTemplate/routes"
 import { unclassifiedCategoriesRoutes } from "@/MFEs/UnclassifiedCategories/routes"
+import { keysRoutes } from "@/MFEs/Keys/routes"
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const routes = [
       },
       ...uploadTemplateRoutes,
       ...unclassifiedCategoriesRoutes,
+      ...keysRoutes
     ],
   },
   {
