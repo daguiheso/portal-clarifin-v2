@@ -6,6 +6,7 @@
       :maintitle="['Home', 'LLaves']" />
 
     <button
+      v-if="clientSelected && businessSelected"
       type="button"
       class="btn btn-primary btn-wave"
       data-bs-target="#modaldemo12"
@@ -187,7 +188,8 @@
           </button>
           <button
             class="btn btn-primary btn-wave"
-            type="button">
+            type="button"
+            @click="createKey">
             Crear
           </button>
         </div>
@@ -197,7 +199,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue"
+import { computed, onUnmounted, ref } from "vue"
 import { format, subMonths } from "date-fns"
 import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
 
@@ -209,6 +211,7 @@ import { useClientsBusiness } from "@/hooks/useClientsBusiness"
 
 
 import useUnclassifiedCategoriesStore from "../stores"
+import { initialState } from "../stores/state"
 
 const store = useUnclassifiedCategoriesStore()
 const clientSelected = ref<any>(null)
@@ -310,6 +313,29 @@ const getUnclassifiedCategoriesByBusinessFor6MonthsAgo = () => {
 //     }
 //   })
 // }
+
+const createKey = async () => {
+  const result = await store.createKey({
+    clientId: clientSelected.value.id,
+    businessId: businessSelected.value.id,
+    keys: [{
+      name: nameNewKey.value
+    }]
+  })
+
+  if (result) {
+    store.getLevelsByBusiness({
+      clientId: clientSelected.value.id,
+      businessId: businessSelected.value.id
+    })
+
+    nameNewKey.value = ""
+  }
+}
+
+onUnmounted(() => {
+  store.$state = initialState()
+})
 
 </script>
 

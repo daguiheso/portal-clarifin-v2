@@ -7,13 +7,6 @@ const v1BaseUrl = "/v1/entity"
 
 export default {
 
-  async getAccounting ({ clientId, businessId, params }: { clientId: string, businessId: string, params: any }) {
-
-    const result = await BffClient.get(`${v1BaseUrl}/client/${clientId}/business/${businessId}/accounting${objectToQueryParams(params)}`)
-
-    return result.data.accounting.filter((item: any) => item.transactional === "S")
-  },
-
   async getUnclassifiedCategoriesByBusiness ({ clientId, businessId, params }: { clientId: string, businessId: string, params: any }): Promise<Accounting[]> {
 
     const result = await BffClient.get(`${v1BaseUrl}/client/${clientId}/business/${businessId}/accounting${objectToQueryParams(params)}`)
@@ -21,6 +14,13 @@ export default {
     return result.data.accounting
       .filter((item: Accounting) => item.transactional === "S")
       .filter((item: Accounting) => item.category?.toLocaleLowerCase()?.includes("unclassified"))
+  },
+
+  async getAccounting ({ clientId, businessId, params }: { clientId: string, businessId: string, params: any }): Promise<Accounting[]> {
+
+    const result = await BffClient.get(`${v1BaseUrl}/client/${clientId}/business/${businessId}/accounting${objectToQueryParams(params)}`)
+
+    return result.data.accounting.filter((item: Accounting) => item.transactional === "S")
   },
 
   getLevels () {
@@ -46,6 +46,15 @@ export default {
     data
   }: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
     return BffClient.post(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template/${templateId}/categories`, [data])
+  },
+
+  updateCategoriesByTemplateClient ({
+    clientId,
+    businessId,
+    templateId,
+    data
+  }: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
+    return BffClient.patch(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template/${templateId}/categories`, [data])
   }
 
 }

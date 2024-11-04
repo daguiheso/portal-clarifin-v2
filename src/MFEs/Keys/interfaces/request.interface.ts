@@ -7,3 +7,7 @@ export interface CreateCategoriesByTemplateClientRequest {
 	code: string
 	idLevel: string
 }
+
+export interface CreateKeyRequest {
+	name: string
+}

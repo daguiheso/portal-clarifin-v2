@@ -8,14 +8,18 @@ const bffRepository = repositoryFactory.bffRepository
 
 export default {
 
-  async getUnclassifiedCategoriesByBusiness (data: { clientId: string, businessId: string, params: any }) {
+  async getAccounting (data: { params: any }) {
     const store = useUnclassifiedCategoriesStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.accounting.isLoading = true
 
     try {
-      const result = await bffRepository.getUnclassifiedCategoriesByBusiness(data)
+      const result = await bffRepository.getAccounting({
+        ...data,
+        clientId: store.clientSelected?.id,
+        businessId: store.businessSelected?.id
+      })
 
       store.accounting.data = result
 
@@ -28,14 +32,14 @@ export default {
     }
   },
 
-  async getTemplateCategoriesByClient (clientId: string) {
+  async getTemplateCategoriesByClient () {
     const store = useUnclassifiedCategoriesStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.templateCategories.isLoading = true
 
     try {
-      const result = await bffRepository.getTemplateCategoriesByClient({ clientId })
+      const result = await bffRepository.getTemplateCategoriesByClient({ clientId: store.clientSelected?.id })
 
       store.templateCategories.data = result.data
 
@@ -48,14 +52,18 @@ export default {
     }
   },
 
-  async createTemplateCategoryByClient (data: { clientId: string, businessId: string, data: CreateTemplateCategoryByClientRequest }) {
+  async createTemplateCategoryByClient (data: { data: CreateTemplateCategoryByClientRequest }) {
     const store = useUnclassifiedCategoriesStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.createTemplateCategory.isLoading = true
 
     try {
-      const result = await bffRepository.createTemplateCategoryByClient(data)
+      const result = await bffRepository.createTemplateCategoryByClient({
+        ...data,
+        clientId: store.clientSelected?.id,
+        businessId: store.businessSelected?.id
+      })
 
       store.createTemplateCategory.data = result.data
 
@@ -88,14 +96,17 @@ export default {
     }
   },
 
-  async getLevelsByBusiness (data: { clientId: string, businessId: string }) {
+  async getLevelsByBusiness () {
     const store = useUnclassifiedCategoriesStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.levelsByBusiness.isLoading = true
 
     try {
-      const result = await bffRepository.getLevelsByBusiness(data)
+      const result = await bffRepository.getLevelsByBusiness({
+        clientId: store.clientSelected?.id,
+        businessId: store.businessSelected?.id
+      })
 
       store.levelsByBusiness.data = result.data
 
@@ -108,16 +119,42 @@ export default {
     }
   },
 
-  async createCategoriesByTemplateClient (data: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
+  async createCategoriesByTemplateClient (data: { templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
     const store = useUnclassifiedCategoriesStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.createCategoriesByTemplate.isLoading = true
 
     try {
-      const result = await bffRepository.createCategoriesByTemplateClient(data)
+      const result = await bffRepository.createCategoriesByTemplateClient({
+        ...data,
+        clientId: store.clientSelected?.id,
+        businessId: store.businessSelected?.id
+      })
 
-      debugger
+      store.createCategoriesByTemplate.data = result.data
+
+    } catch (error: unknown) {
+      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
+      store.createCategoriesByTemplate.error = error
+
+    } finally {
+      store.createCategoriesByTemplate.isLoading = false
+    }
+  },
+
+  async updateCategoriesByTemplateClient (data: { templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
+    const store = useUnclassifiedCategoriesStore()
+    const { addSnackbarError } = useErrorManagement()
+
+    store.createCategoriesByTemplate.isLoading = true
+
+    try {
+      const result = await bffRepository.updateCategoriesByTemplateClient({
+        ...data,
+        clientId: store.clientSelected?.id,
+        businessId: store.businessSelected?.id
+      })
 
       store.createCategoriesByTemplate.data = result.data
 

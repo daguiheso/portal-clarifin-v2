@@ -1,6 +1,8 @@
 import { State } from "../interfaces/state.interface"
 
 const state: State = {
+  clientSelected: null,
+  businessSelected: null,
   accounting: {
     data: [],
     error: null,

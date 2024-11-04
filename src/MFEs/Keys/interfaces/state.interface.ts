@@ -7,5 +7,6 @@ export interface State {
 	createTemplateCategory: ApiResponse<Partial<TemplateCategory>>,
 	levels: ApiResponse<Partial<Level[]>>,
 	levelsByBusiness: ApiResponse<Partial<Level[]>>,
-	createCategoriesByTemplate: ApiResponse<Partial<Level>>
+	createCategoriesByTemplate: ApiResponse<Partial<Level>>,
+	createKey: ApiResponse<Partial<Level[]>>,
 }

@@ -7,5 +7,16 @@ export default {
     }
 
     return state.templateCategories.data.find((item: any) => item.idBusiness === idBusiness)
+  },
+
+  accountingNotClassified: (state: any) => {
+
+    if (!state.accounting.data || !state.accounting.data.length) {
+      return []
+    }
+
+    return state.accounting.data
+      .filter((item: any) => item.transactional === "S")
+      .filter((item: any) => item.category?.toLocaleLowerCase()?.includes("unclassified"))
   }
 }

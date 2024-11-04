@@ -2,6 +2,8 @@ import { ApiResponse } from "@/commons/interfaces"
 import { Accounting, Level, TemplateCategory } from "./response.interface"
 
 export interface State {
+	clientSelected: any,
+	businessSelected: any,
 	accounting: ApiResponse<Partial<Accounting>>,
 	templateCategories: ApiResponse<Partial<TemplateCategory[]>>,
 	createTemplateCategory: ApiResponse<Partial<TemplateCategory>>,

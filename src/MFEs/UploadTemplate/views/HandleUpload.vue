@@ -164,12 +164,12 @@
                 <div
                   v-if="Array.isArray(store.accounting.data) && store.accounting.data.length"
                   class="text-center mt-5">
-                  <p>Se han encontrado categorias aún sin clasificar.</p>
+                  <p>Se han encontrado categorías PUC aún sin clasificar.</p>
                   <button
                     type="button"
                     class="btn btn-primary"
                     @click="goToUnclassifiedCategories">
-                    Clasificar categorias
+                    Clasificar categorías PUC
                   </button>
                 </div>
               </template>

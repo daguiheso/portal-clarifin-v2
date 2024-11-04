@@ -1,6 +1,6 @@
 import BffClient from "@/commons/repositories/clients/BffClient"
 import { objectToQueryParams } from "@/commons/utils"
-import { CreateCategoriesByTemplateClientRequest, CreateTemplateCategoryByClientRequest } from "../interfaces/request.interface"
+import { CreateCategoriesByTemplateClientRequest, CreateKeyRequest, CreateTemplateCategoryByClientRequest } from "../interfaces/request.interface"
 import { Accounting } from "../interfaces/response.interface"
 
 const v1BaseUrl = "/v1/entity"
@@ -25,6 +25,10 @@ export default {
 
   getLevels () {
     return BffClient.get(`${v1BaseUrl}/levels`)
+  },
+
+  createLevels ({ clientId, businessId, keys }: { clientId: string, businessId: string, keys: CreateKeyRequest[] }) {
+    return BffClient.post(`${v1BaseUrl}/levels/client/${clientId}/business/${businessId}`, keys)
   },
 
   getLevelsByBusiness ({ clientId, businessId }: { clientId: string, businessId: string }) {

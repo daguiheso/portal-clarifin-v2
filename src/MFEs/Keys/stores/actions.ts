@@ -1,15 +1,15 @@
 import useErrorManagement from "@/hooks/useErrorManagement"
 
 import repositoryFactory from "../repositories/RepositoryFactory"
-import useUnclassifiedCategoriesStore from "../stores"
-import { CreateCategoriesByTemplateClientRequest, CreateTemplateCategoryByClientRequest } from "../interfaces/request.interface"
+import useKeysStore from "../stores"
+import { CreateCategoriesByTemplateClientRequest, CreateKeyRequest, CreateTemplateCategoryByClientRequest } from "../interfaces/request.interface"
 
 const bffRepository = repositoryFactory.bffRepository
 
 export default {
 
   async getUnclassifiedCategoriesByBusiness (data: { clientId: string, businessId: string, params: any }) {
-    const store = useUnclassifiedCategoriesStore()
+    const store = useKeysStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.accounting.isLoading = true
@@ -29,7 +29,7 @@ export default {
   },
 
   async getTemplateCategoriesByClient (clientId: string) {
-    const store = useUnclassifiedCategoriesStore()
+    const store = useKeysStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.templateCategories.isLoading = true
@@ -49,7 +49,7 @@ export default {
   },
 
   async createTemplateCategoryByClient (data: { clientId: string, businessId: string, data: CreateTemplateCategoryByClientRequest }) {
-    const store = useUnclassifiedCategoriesStore()
+    const store = useKeysStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.createTemplateCategory.isLoading = true
@@ -69,7 +69,7 @@ export default {
   },
 
   async getLevels () {
-    const store = useUnclassifiedCategoriesStore()
+    const store = useKeysStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.levels.isLoading = true
@@ -88,8 +88,30 @@ export default {
     }
   },
 
+  async createKey (data: { clientId: string, businessId: string, keys: CreateKeyRequest[] }) {
+    const store = useKeysStore()
+    const { addSnackbarError } = useErrorManagement()
+
+    store.createKey.isLoading = true
+
+    try {
+      const result = await bffRepository.createLevels(data)
+
+      store.createKey.data = result.data
+
+      return true
+    } catch (error: unknown) {
+      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
+      store.createKey.error = error
+
+      return false
+    } finally {
+      store.createKey.isLoading = false
+    }
+  },
+
   async getLevelsByBusiness (data: { clientId: string, businessId: string }) {
-    const store = useUnclassifiedCategoriesStore()
+    const store = useKeysStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.levelsByBusiness.isLoading = true
@@ -109,7 +131,7 @@ export default {
   },
 
   async createCategoriesByTemplateClient (data: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
-    const store = useUnclassifiedCategoriesStore()
+    const store = useKeysStore()
     const { addSnackbarError } = useErrorManagement()
 
     store.createCategoriesByTemplate.isLoading = true
