@@ -7,8 +7,8 @@ import simplebar from "simplebar-vue"
 import "simplebar/dist/simplebar.min.css"
 import Vue3ColorPicker from "vue3-colorpicker"
 import "vue3-colorpicker/style.css"
+import "vue3-toastify/dist/index.css"
 import { createPinia } from "pinia"
-
 const app = createApp(App)
 
 // eslint-disable-next-line vue/multi-word-component-names

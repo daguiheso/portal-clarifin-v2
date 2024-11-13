@@ -1,6 +1,8 @@
 import { State } from "../interfaces/state.interface"
 
 const state: State = {
+  clientSelected: null,
+  businessSelected: null,
   clients: {
     data: [],
     error: null,
@@ -26,7 +28,12 @@ const state: State = {
     error: null,
     isLoading: false
   },
-  completedSteps: []
+  completedSteps: [],
+  deletePUC: {
+    data: {},
+    error: null,
+    isLoading: false
+  }
 }
 
 export default state

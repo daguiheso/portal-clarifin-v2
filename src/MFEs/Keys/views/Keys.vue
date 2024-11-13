@@ -9,7 +9,7 @@
       v-if="clientSelected && businessSelected"
       type="button"
       class="btn btn-primary btn-wave"
-      data-bs-target="#modaldemo12"
+      data-bs-target="#modalCreateKey"
       data-bs-toggle="modal"
       href="javascript:;">
       Crear llave
@@ -146,7 +146,7 @@
   </div>
 
   <div
-    id="modaldemo12"
+    id="modalCreateKey"
     class="modal fade">
     <div
       class="modal-dialog"

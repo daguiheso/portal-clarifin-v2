@@ -1,7 +1,19 @@
 <template>
-  <Pageheader
-    heading="Cargar Plantilla"
-    :maintitle="['Home', 'Cargar plantilla']" />
+  <div class="d-flex justify-content-between align-items-center">
+    <Pageheader
+      heading="Carga de PUC"
+      :maintitle="['Home', 'Carga de PUC']" />
+
+    <button
+      type="button"
+      class="btn btn-primary btn-wave"
+      data-bs-target="#modalDeletePUC"
+      data-bs-toggle="modal"
+      href="javascript:;">
+      <!-- <i class="icon-x co-cursor-pointer typcn typcn-delete" /> -->
+      Eliminar PUC´s previamente cargados
+    </button>
+  </div>
 
   <!-- Start:: row-1 -->
   <div class="row justify-content-center upload-template">
@@ -183,6 +195,12 @@
     </div>
   </div>
 
+  <div
+    id="modalDeletePUC"
+    class="modal fade">
+    <DeleteUploadedPUC />
+  </div>
+
 </template>
 
 <script lang="ts" setup>
@@ -200,11 +218,12 @@ import "vue3-form-wizard/dist/style.css"
 // import Datepicker1 from "@vuepic/vue-datepicker"
 import useActionResult from "@/hooks/useActionResult"
 
-import useUnclasifiedCategoriesStore from "../stores"
+import useUploadTemplateStore from "../stores"
 import ClaUploader from "../components/ClaUploader.vue"
 import { useClientsBusiness } from "@/hooks/useClientsBusiness"
+import DeleteUploadedPUC from "./DeleteUploadedPUC.vue"
 
-const store = useUnclasifiedCategoriesStore()
+const store = useUploadTemplateStore()
 const clientSelected = ref<any>(null)
 const businessSelected = ref<any>(null)
 const format = ref<any>(null)

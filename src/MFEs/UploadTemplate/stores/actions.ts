@@ -2,6 +2,7 @@ import useErrorManagement from "@/hooks/useErrorManagement"
 
 import repositoryFactory from "../repositories/RepositoryFactory"
 import useUploadTemplateStore from "../stores"
+import { claToast } from "@/commons/utils/toast"
 
 const bffRepository = repositoryFactory.bffRepository
 
@@ -120,5 +121,47 @@ export default {
       store.accounting.isLoading = false
     }
   },
+
+  async deletePUC (data: { clientId: string, businessId: string, dateImport: string }) {
+    const store = useUploadTemplateStore()
+
+    store.deletePUC.isLoading = true
+
+    try {
+      const result = await bffRepository.deletePUC(data)
+
+      store.deletePUC.data = result
+
+      claToast.successToast(
+        "<strong class=' me-auto'>ClariFIN</strong>" +
+        "<div class='toast-body'>PUC´s eliminados correctamente</div>",
+        true,
+        "auto",
+        true,
+        true,
+        "bounce",
+        1000,
+        "top-right"
+      )
+
+    } catch (error: unknown) {
+
+      claToast.errorToast(
+        "<strong class=' me-auto'>ClariFIN</strong>" +
+        "<div class='toast-body'>Hubo un problema y no se pudo eliminar los PUC´s</div>",
+        true,
+        "auto",
+        true,
+        true,
+        "bounce",
+        1000,
+        "top-right"
+      )
+      store.deletePUC.error = error
+
+    } finally {
+      store.deletePUC.isLoading = false
+    }
+  }
 
 }

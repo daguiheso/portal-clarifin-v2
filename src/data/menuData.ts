@@ -29,7 +29,7 @@ export const menuData = [
   },
   {
     path: "/upload",
-    title: "Cargar plantilla",
+    title: "Carga de PUC",
     type: "link",
     icon: "icon-cloud-upload",
     active: true,

@@ -51,4 +51,18 @@ export default {
     return result.data.accounting.filter((item: any) => item.transactional === "S")
   },
 
+  async deletePUC ({ clientId, businessId, dateImport }: { clientId: string, businessId: string, dateImport: string }) {
+    const formData = new FormData()
+
+    formData.append("idClient", String(clientId))
+    formData.append("idBusiness", String(businessId))
+    formData.append("dateImport", dateImport)
+
+    const result = await BffClient.delete(`${v1BaseUrl}/puc`, {
+      data: formData
+    })
+
+    return result
+  }
+
 }
