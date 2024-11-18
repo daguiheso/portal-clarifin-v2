@@ -1,14 +1,16 @@
 <template>
-  <Pageheader
-    heading="Categorías PUC"
-    :maintitle="['Home', 'Categorías PUC']" />
+  <div class="d-flex align-items-center">
+    <Pageheader
+      heading="Categorías PUC"
+      :maintitle="['Home', 'Categorías PUC']" />
+  </div>
 
   <div class="row justify-content-center upload-template">
     <div class="bg-white py-4 px-5 col col-12 card">
 
       <div
         v-if="!areThereQueryParams"
-        class="col-xs-12 text-start pb-4">
+        class="col-xs-12 text-start pb-2">
         <div class="col-md-12">
 
           <div class="d-flex justify-content-between flex-wrap">
@@ -76,7 +78,7 @@
         <div class="tab-content">
           <div
             id="all"
-            class="tab-pane active"
+            class="tab-pane active p-0"
             role="tabpanel">
 
             <Accounting
@@ -85,7 +87,7 @@
 
           <div
             id="not-classified"
-            class="tab-pane"
+            class="tab-pane p-0"
             role="tabpanel">
 
             <AccountingNoClassified
@@ -99,7 +101,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue"
+import { computed, onUnmounted, ref } from "vue"
 import { format, subMonths } from "date-fns"
 import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
 import { useRoute } from "vue-router"
@@ -113,6 +115,7 @@ import { useClientsBusiness } from "@/hooks/useClientsBusiness"
 import useUnclassifiedCategoriesStore from "../stores"
 import Accounting from "./Accounting.vue"
 import AccountingNoClassified from "./AccountingNoClassified.vue"
+import { initialState } from "../stores/state"
 
 const store = useUnclassifiedCategoriesStore()
 const { getClients, getBusiness, clients, business } = useClientsBusiness()
@@ -142,7 +145,7 @@ const selectClient = () => {
 }
 
 const selectBusiness = async () => {
-  getAccountingFor6MonthsAgo()
+  getAccountingFor2YearsAgo()
 
   await setTemplateCategory()
 
@@ -180,9 +183,9 @@ const industryByCurrentBussinesId = computed(() => {
 
 const nameWithLang = ({ name }: any) => `${name}`
 
-const getAccountingFor6MonthsAgo = () => {
+const getAccountingFor2YearsAgo = () => {
   const today = new Date()
-  const sixMonthsAgo = subMonths(today, 6)
+  const sixMonthsAgo = subMonths(today, 24)
 
   const formattedToday = format(today, "yyyy-M-dd")
   const formattedSixMonthsAgo = format(sixMonthsAgo, "yyyy-M-dd")
@@ -223,6 +226,10 @@ const init = async () => {
 }
 
 init()
+
+onUnmounted(() => {
+  store.$state = initialState()
+})
 </script>
 
 <style lang="scss">

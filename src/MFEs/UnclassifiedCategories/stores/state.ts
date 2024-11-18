@@ -1,6 +1,6 @@
 import { State } from "../interfaces/state.interface"
 
-const state: State = {
+export const initialState = () => ({
   clientSelected: null,
   businessSelected: null,
   accounting: {
@@ -33,6 +33,8 @@ const state: State = {
     error: null,
     isLoading: false
   }
-}
+})
+
+const state: State = initialState()
 
 export default state

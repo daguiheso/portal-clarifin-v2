@@ -1,15 +1,15 @@
-+<template>
-  <div className="horizontalMenucontainer">
+<template>
+  <div class="horizontalMenucontainer">
     <Switcher />
 
-    <div className="page">
+    <div class="pag">
 
       <Header />
 
       <Sidebar />
 
-      <div className="main-content app-content">
-        <div className="container-fluid">
+      <div class="main-content app-content">
+        <div class="container-fluid">
           <router-view />
         </div>
       </div>

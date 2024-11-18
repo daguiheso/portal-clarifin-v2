@@ -11,7 +11,14 @@ import "vue3-toastify/dist/index.css"
 import { createPinia } from "pinia"
 const app = createApp(App)
 
+import VueGoodTablePlugin from "vue-good-table-next"
+
+// import the styles
+import "vue-good-table-next/dist/vue-good-table-next.css"
+
+
 // eslint-disable-next-line vue/multi-word-component-names
+app.use(VueGoodTablePlugin)
 app.component("Simplebar", simplebar)
 app.use(router)
 app.use(Vue3ColorPicker)

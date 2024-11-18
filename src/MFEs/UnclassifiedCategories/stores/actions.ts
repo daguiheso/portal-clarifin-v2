@@ -119,7 +119,7 @@ export default {
     }
   },
 
-  async createCategoriesByTemplateClient (data: { templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
+  async createCategoriesByTemplateClient (data: { templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
     const store = useUnclassifiedCategoriesStore()
     const { addSnackbarError } = useErrorManagement()
 
@@ -143,7 +143,7 @@ export default {
     }
   },
 
-  async updateCategoriesByTemplateClient (data: { templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
+  async updateCategoriesByTemplateClient (data: { templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
     const store = useUnclassifiedCategoriesStore()
     const { addSnackbarError } = useErrorManagement()
 

@@ -242,7 +242,7 @@ const selectClient = () => {
 // }
 
 const selectBusiness = async () => {
-  getUnclassifiedCategoriesByBusinessFor6MonthsAgo()
+  getUnclassifiedCategoriesByBusinessFor2YearsAgo()
 
   await setTemplateCategory()
 
@@ -285,9 +285,9 @@ const industryByCurrentBussinesId = computed(() => {
 
 const nameWithLang = ({ name }: any) => `${name}`
 
-const getUnclassifiedCategoriesByBusinessFor6MonthsAgo = () => {
+const getUnclassifiedCategoriesByBusinessFor2YearsAgo = () => {
   const today = new Date()
-  const sixMonthsAgo = subMonths(today, 6)
+  const sixMonthsAgo = subMonths(today, 24)
 
   const formattedToday = format(today, "yyyy-M-dd")
   const formattedSixMonthsAgo = format(sixMonthsAgo, "yyyy-M-dd")

@@ -44,8 +44,8 @@ export default {
     businessId,
     templateId,
     data
-  }: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
-    return BffClient.post(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template/${templateId}/categories`, [data])
+  }: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
+    return BffClient.post(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template/${templateId}/categories`, data)
   },
 
   updateCategoriesByTemplateClient ({
@@ -53,8 +53,8 @@ export default {
     businessId,
     templateId,
     data
-  }: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
-    return BffClient.patch(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template/${templateId}/categories`, [data])
+  }: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
+    return BffClient.patch(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template/${templateId}/categories`, data)
   }
 
 }

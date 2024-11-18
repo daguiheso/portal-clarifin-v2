@@ -12,3 +12,37 @@
         margin-left: 10px !important;
     }
 }
+
+.cla-table {
+  .vgt-responsive {
+    min-height: 400px;
+  }
+
+  .vgt-table {
+    border: none;
+    td, th {
+      vertical-align: middle;
+      border: none !important;
+    }
+  }
+
+  th.vgt-checkbox-col {
+    background: none;
+  }
+  .vgt-global-search {
+    border: none;
+
+    &__input {
+      width: 50%;
+      padding: 0;
+      .input__icon {
+        display: none;
+      }
+    }
+  }
+
+
+  .vgt-selection-info-row {
+    border: none;
+  }
+}

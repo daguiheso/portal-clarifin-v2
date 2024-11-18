@@ -1,9 +1,11 @@
 <!-- eslint-disable vue/max-len -->
 <template>
   <!--Row-->
-  <Pageheader
-    heading="Welcome To Dashboard"
-    :maintitle="['Home']" />
+  <div class="d-flex align-items-center">
+    <Pageheader
+      heading="Welcome To Dashboard"
+      :maintitle="['Home']" />
+  </div>
 
   <div class="row row-sm">
     <div class="col-sm-12 col-lg-12 col-xl-8">
