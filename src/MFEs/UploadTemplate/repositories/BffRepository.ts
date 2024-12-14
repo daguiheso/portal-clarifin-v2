@@ -22,7 +22,8 @@ export default {
     idBusiness: number,
     idFormat: number,
     dateImport: string,
-    file: Blob
+    file: Blob,
+    ignorePreviousBalance: boolean
   }) {
     const formData = new FormData()
 
@@ -31,6 +32,7 @@ export default {
     formData.append("idBusiness", String(data.idBusiness))
     formData.append("idFormat", String(data.idFormat))
     formData.append("dateImport", data.dateImport)
+    formData.append("ignorePreviousBalance", String(data.ignorePreviousBalance))
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uploadFileResponse = await BffClient.post(`${v1BaseUrl}/puc/upload`, formData,

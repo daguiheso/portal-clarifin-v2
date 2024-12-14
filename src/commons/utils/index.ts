@@ -18,3 +18,12 @@ export const handleError = (error: unknown) => {
 
   claToast.errorToast(errorMessage)
 }
+
+export const getLastDayOfMonth = (yearMonth: string) => {
+  const [year, month] = yearMonth.split("-").map(Number)
+
+  const lastDay = new Date(year, month, 0)
+
+  return lastDay.getDate()
+}
+

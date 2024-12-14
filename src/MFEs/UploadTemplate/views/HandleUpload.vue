@@ -115,6 +115,26 @@
                 </div>
               </div>
 
+              <div class="d-flex justify-content-around mt-4">
+                <div class="form-group col-12 col-md-5">
+                  <div class="form-check form-check-md form-switch d-flex align-items-center">
+                    <input
+                      id="switch-md"
+                      v-model="ignoreMonthValidation"
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch">
+                    <label
+                      class="form-check-label"
+                      for="switch-md">
+                      Ignorar validaciones entre meses
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group col-12 col-md-5"></div>
+              </div>
+
               <ClaUploader
                 ref="dragAndDrop"
                 class="mt-4 px-4"
@@ -134,6 +154,7 @@
                 role="alert">
                 Hay campos obligatorios que no se han completado
               </div>
+
 
 
             </div>
@@ -216,12 +237,12 @@ import { FormWizard, TabContent } from "vue3-form-wizard"
 import "vue3-form-wizard/dist/style.css"
 // import Datepicker from "vue3-datepicker"
 // import Datepicker1 from "@vuepic/vue-datepicker"
-import useActionResult from "@/hooks/useActionResult"
 
 import useUploadTemplateStore from "../stores"
 import ClaUploader from "../components/ClaUploader.vue"
 import { useClientsBusiness } from "@/hooks/useClientsBusiness"
 import DeleteUploadedPUC from "./DeleteUploadedPUC.vue"
+import { getLastDayOfMonth, handleError } from "@/commons/utils"
 
 const store = useUploadTemplateStore()
 const clientSelected = ref<any>(null)
@@ -231,13 +252,13 @@ const dateImport = ref<any>(null)
 const isStep1Dirty = ref(false)
 const router = useRouter()
 const { getClients, getBusiness, clients, business } = useClientsBusiness()
-const { addSnackBarActionResult } = useActionResult()
 
 const allowedExtensions = [".xlsx", ".xls"]
 
 const fileContent = ref<File | null>(null)
 const dragAndDrop = ref()
 const showErrors = ref(false)
+const ignoreMonthValidation = ref(false)
 
 getClients()
 
@@ -297,8 +318,9 @@ const uploadFile = async () => {
     idClient: clientSelected.value.id,
     idBusiness: businessSelected.value.id,
     idFormat: format.value.id,
-    dateImport: `${dateImport.value}-31`,
-    file: blob
+    dateImport: `${dateImport.value}-${getLastDayOfMonth(dateImport.value)}`,
+    file: blob,
+    ignorePreviousBalance: ignoreMonthValidation.value
   })
 
   if (result) getAccounting()
@@ -315,19 +337,13 @@ const onFileChange = (file: File) => {
   const fileExtension = file.name.split(".").pop()
 
   if (file.size > maxSizeInBytes) {
-    addSnackBarActionResult({
-      message: "File size exceeds the limit of 2MB",
-      type: "error",
-      btnLabel: "",
-    })
+
+    handleError(new Error("File size exceeds the limit of 2MB"))
 
     return
   } else if (!allowedExtensions.includes(`.${fileExtension}`)) {
-    addSnackBarActionResult({
-      message: "File extension not allowed. Please upload a file with \".xml\" extension",
-      type: "error",
-      btnLabel: "",
-    })
+
+    handleError(new Error("File extension not allowed. Please upload a file with \".xml\" extension"))
 
     return
   }
@@ -341,13 +357,13 @@ const getAccounting = () => {
     businessId: businessSelected.value.id,
     params: {
       start_date: `${dateImport.value}-1`,
-      end_date: `${dateImport.value}-31`
+      end_date: `${dateImport.value}-${getLastDayOfMonth(dateImport.value)}`
     }
   })
 }
 
 const goToUnclassifiedCategories = () => {
-  router.push(`/unclassified-categories?client=${clientSelected.value.id}&business=${businessSelected.value.id}&start_date=${dateImport.value}-1&end_date=${dateImport.value}-31`)
+  router.push(`/unclassified-categories?client=${clientSelected.value.id}&business=${businessSelected.value.id}&start_date=${dateImport.value}-1&end_date=${dateImport.value}-${getLastDayOfMonth(dateImport.value)}`)
 }
 
 const goToHome = () => router.push("/home")
