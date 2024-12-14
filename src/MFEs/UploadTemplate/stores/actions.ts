@@ -1,5 +1,4 @@
-import useErrorManagement from "@/hooks/useErrorManagement"
-
+import { handleError } from "@/commons/utils"
 import repositoryFactory from "../repositories/RepositoryFactory"
 import useUploadTemplateStore from "../stores"
 import { claToast } from "@/commons/utils/toast"
@@ -9,7 +8,6 @@ const bffRepository = repositoryFactory.bffRepository
 export default {
   async getClients () {
     const store = useUploadTemplateStore()
-    // const { addSnackbarError } = useErrorManagement()
 
     store.clients.isLoading = true
 
@@ -19,9 +17,9 @@ export default {
       store.clients.data = result.data
 
     } catch (error: unknown) {
-      // addSnackbarError({ error, errorKey: "bulkMovementClients" })
       store.clients.error = error
 
+      handleError(error)
     } finally {
       store.clients.isLoading = false
     }
@@ -29,7 +27,6 @@ export default {
 
   async getBusiness (clientId: string) {
     const store = useUploadTemplateStore()
-    // const { addSnackbarError } = useErrorManagement()
 
     store.business.isLoading = true
 
@@ -39,9 +36,9 @@ export default {
       store.business.data = result.data
 
     } catch (error: unknown) {
-      // addSnackbarError({ error, errorKey: "bulkMovementBusiness" })
       store.business.error = error
 
+      handleError(error)
     } finally {
       store.business.isLoading = false
     }
@@ -49,7 +46,6 @@ export default {
 
   async getFormats () {
     const store = useUploadTemplateStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.formats.isLoading = true
 
@@ -59,9 +55,9 @@ export default {
       store.formats.data = result.data
 
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.formats.error = error
 
+      handleError(error)
     } finally {
       store.formats.isLoading = false
     }
@@ -72,10 +68,10 @@ export default {
     idBusiness: number,
     idFormat: number,
     dateImport: string,
-    file: Blob
+    file: Blob,
+    ignorePreviousBalance: boolean,
   }) {
     const store = useUploadTemplateStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.uploadFile.isLoading = true
 
@@ -89,11 +85,11 @@ export default {
 
     } catch (error: any) {
       if (!error?.response?.data?.errorDescription) {
-        addSnackbarError({ error: error.message, errorKey: "bulkMovementUpload"})
         store.uploadFile.error = error
       } else {
         store.uploadFile.error = error.response.data
       }
+      handleError(error)
 
       return false
 
@@ -104,7 +100,6 @@ export default {
 
   async getAccounting (data: { clientId: string, businessId: string, params: any }) {
     const store = useUploadTemplateStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.accounting.isLoading = true
 
@@ -114,9 +109,9 @@ export default {
       store.accounting.data = result
 
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.accounting.error = error
 
+      handleError(error)
     } finally {
       store.accounting.isLoading = false
     }
@@ -135,13 +130,6 @@ export default {
       claToast.successToast(
         "<strong class=' me-auto'>ClariFIN</strong>" +
         "<div class='toast-body'>PUC´s eliminados correctamente</div>",
-        true,
-        "auto",
-        true,
-        true,
-        "bounce",
-        1000,
-        "top-right"
       )
 
     } catch (error: unknown) {
@@ -149,13 +137,6 @@ export default {
       claToast.errorToast(
         "<strong class=' me-auto'>ClariFIN</strong>" +
         "<div class='toast-body'>Hubo un problema y no se pudo eliminar los PUC´s</div>",
-        true,
-        "auto",
-        true,
-        true,
-        "bounce",
-        1000,
-        "top-right"
       )
       store.deletePUC.error = error
 

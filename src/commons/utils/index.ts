@@ -1,3 +1,4 @@
+import { claToast } from "@/commons/utils/toast"
 export const objectToQueryParams = (params: object) => {
   let result = ""
 
@@ -10,4 +11,10 @@ export const objectToQueryParams = (params: object) => {
   }
 
   return result
+}
+
+export const handleError = (error: unknown) => {
+  const errorMessage = error instanceof Error ? error.message : "An unknown error occurred"
+
+  claToast.errorToast(errorMessage)
 }

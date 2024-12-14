@@ -1,11 +1,10 @@
 import { computed } from "vue"
 import useContainerStore from "@/container/store" // Ruta del store
 import bffRepository from "@/commons/repositories/BffRepository" // Ruta del repositorio
-// import { useErrorManagement } from '@/composables/useErrorManagement' // Ruta del composable para manejo de errores
+import { handleError } from "@/commons/utils"
 
 export function useClientsBusiness () {
   const store = useContainerStore()
-  // const { addSnackbarError } = useErrorManagement() // Manejo de errores
 
   const getClients = async () => {
     store.clients.isLoading = true
@@ -15,8 +14,9 @@ export function useClientsBusiness () {
 
       store.clients.data = result.data
     } catch (error: unknown) {
-      // addSnackbarError({ error, errorKey: "bulkMovementClients" })
       store.clients.error = error
+
+      handleError(error)
     } finally {
       store.clients.isLoading = false
     }
@@ -30,8 +30,9 @@ export function useClientsBusiness () {
 
       store.business.data = result.data
     } catch (error: unknown) {
-      // addSnackbarError({ error, errorKey: "bulkMovementBusiness" })
       store.business.error = error
+
+      handleError(error)
     } finally {
       store.business.isLoading = false
     }

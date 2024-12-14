@@ -1,8 +1,7 @@
-import useErrorManagement from "@/hooks/useErrorManagement"
-
 import repositoryFactory from "../repositories/RepositoryFactory"
 import useKeysStore from "../stores"
 import { CreateCategoriesByTemplateClientRequest, CreateKeyRequest, CreateTemplateCategoryByClientRequest } from "../interfaces/request.interface"
+import { handleError } from "@/commons/utils"
 
 const bffRepository = repositoryFactory.bffRepository
 
@@ -10,7 +9,6 @@ export default {
 
   async getUnclassifiedCategoriesByBusiness (data: { clientId: string, businessId: string, params: any }) {
     const store = useKeysStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.accounting.isLoading = true
 
@@ -20,9 +18,9 @@ export default {
       store.accounting.data = result
 
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.accounting.error = error
 
+      handleError(error)
     } finally {
       store.accounting.isLoading = false
     }
@@ -30,7 +28,6 @@ export default {
 
   async getTemplateCategoriesByClient (clientId: string) {
     const store = useKeysStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.templateCategories.isLoading = true
 
@@ -40,9 +37,9 @@ export default {
       store.templateCategories.data = result.data
 
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.templateCategories.error = error
 
+      handleError(error)
     } finally {
       store.templateCategories.isLoading = false
     }
@@ -50,7 +47,6 @@ export default {
 
   async createTemplateCategoryByClient (data: { clientId: string, businessId: string, data: CreateTemplateCategoryByClientRequest }) {
     const store = useKeysStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.createTemplateCategory.isLoading = true
 
@@ -60,9 +56,9 @@ export default {
       store.createTemplateCategory.data = result.data
 
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.createTemplateCategory.error = error
 
+      handleError(error)
     } finally {
       store.createTemplateCategory.isLoading = false
     }
@@ -70,7 +66,6 @@ export default {
 
   async getLevels () {
     const store = useKeysStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.levels.isLoading = true
 
@@ -80,9 +75,9 @@ export default {
       store.levels.data = result.data
 
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.levels.error = error
 
+      handleError(error)
     } finally {
       store.levels.isLoading = false
     }
@@ -90,7 +85,6 @@ export default {
 
   async createKey (data: { clientId: string, businessId: string, keys: CreateKeyRequest[] }) {
     const store = useKeysStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.createKey.isLoading = true
 
@@ -101,8 +95,9 @@ export default {
 
       return true
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.createKey.error = error
+
+      handleError(error)
 
       return false
     } finally {
@@ -112,7 +107,6 @@ export default {
 
   async getLevelsByBusiness (data: { clientId: string, businessId: string }) {
     const store = useKeysStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.levelsByBusiness.isLoading = true
 
@@ -122,9 +116,9 @@ export default {
       store.levelsByBusiness.data = result.data
 
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.levelsByBusiness.error = error
 
+      handleError(error)
     } finally {
       store.levelsByBusiness.isLoading = false
     }
@@ -132,21 +126,18 @@ export default {
 
   async createCategoriesByTemplateClient (data: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
     const store = useKeysStore()
-    const { addSnackbarError } = useErrorManagement()
 
     store.createCategoriesByTemplate.isLoading = true
 
     try {
       const result = await bffRepository.createCategoriesByTemplateClient(data)
 
-      debugger
-
       store.createCategoriesByTemplate.data = result.data
 
     } catch (error: unknown) {
-      addSnackbarError({ error, errorKey: "bulkMovementTemplate" })
       store.createCategoriesByTemplate.error = error
 
+      handleError(error)
     } finally {
       store.createCategoriesByTemplate.isLoading = false
     }
