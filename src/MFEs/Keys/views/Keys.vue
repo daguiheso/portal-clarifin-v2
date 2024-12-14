@@ -163,7 +163,7 @@
             type="button" />
         </div>
         <div class="modal-body">
-          <form>
+          <form id="newKeyForm">
             <div class="col-10 offset-1">
               <label
                 for="input-placeholder"
@@ -188,8 +188,10 @@
           </button>
           <button
             class="btn btn-primary btn-wave"
-            type="button"
-            @click="createKey">
+            type="submit"
+            form="newKeyForm"
+            :disabled="!isValidForm"
+            @click.prevent="createKey">
             Crear
           </button>
         </div>
@@ -229,6 +231,8 @@ store.accounting = {
 
 getClients()
 store.getLevels()
+
+const isValidForm = computed(() => nameNewKey.value)
 
 const selectClient = () => {
   getBusiness(clientSelected.value.id)
