@@ -20,7 +20,7 @@
     <div class="bg-white py-4 px-5 col col-12 card">
       <form-wizard
         step-size="xs"
-        color="#3629d3"
+        color="#231e1e"
         error-color="#ff7070"
         next-button-text="Cargar"
         back-button-text="Atrás"

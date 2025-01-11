@@ -1,1 +1,9 @@
-@import"../icon-fonts/RemixIcons/fonts/remixicon.css";@import"../icon-fonts/feather/feather.css";@import"../icon-fonts/boxicons/css/boxicons.css";@import"../icon-fonts/fontawesome-free/css/all.min.css";@import"../icon-fonts/simple-line-icons/simple-line-icons.css";@import"../icon-fonts/typicons.font/typicons.css"/*# sourceMappingURL=icons.css.map */
+/*Icon Sets*/
+@import url("../icon-fonts/RemixIcons/fonts/remixicon.css");
+@import url("../icon-fonts/feather/feather.css");
+@import url("../icon-fonts/boxicons/css/boxicons.css");
+@import url("../icon-fonts/fontawesome-free/css/all.min.css");
+@import url("../icon-fonts/simple-line-icons/simple-line-icons.css");
+@import url("../icon-fonts/typicons.font/typicons.css");
+
+/*# sourceMappingURL=icons.css.map */

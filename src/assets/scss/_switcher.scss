@@ -602,7 +602,7 @@
 //menu-dark start
 [data-menu-styles="dark"] {
     --menu-bg: #{var(--custom-white)};
-    --menu-prime-color: rgba(255, 255, 255, 0.4);
+    --menu-prime-color: rgba(255, 255, 255, 0.9);
     --menu-border-color: rgba(255, 255, 255, 0.1);
 
 
@@ -746,7 +746,7 @@
 
     &[data-theme-mode="light"] {
         --menu-bg: var(--primary-color);
-        --menu-prime-color: rgba(255, 255, 255, 0.4);
+        --menu-prime-color: rgba(255, 255, 255, 0.9);
     }
 }
 
