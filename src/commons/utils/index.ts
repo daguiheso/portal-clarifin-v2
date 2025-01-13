@@ -27,3 +27,7 @@ export const getLastDayOfMonth = (yearMonth: string) => {
   return lastDay.getDate()
 }
 
+export function getIdentityProviderUrlBase () {
+  return "https://session.clarifin.co/v2/entity/sessions/clarifin"
+}
+
