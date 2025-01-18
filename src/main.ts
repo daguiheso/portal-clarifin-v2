@@ -15,8 +15,8 @@ import VueGoodTablePlugin from "vue-good-table-next"
 
 // import the styles
 import "vue-good-table-next/dist/vue-good-table-next.css"
-import axios from "axios"
 import { getIdentityProviderUrlBase } from "./commons/utils"
+import IdentityProviderRepository from "./commons/repositories/IdentityProviderRepository"
 
 const baseURL = getIdentityProviderUrlBase()
 
@@ -29,7 +29,7 @@ async function checkToken () {
     localStorage.setItem("idSession", `${idSession}`)
     localStorage.setItem("realm", `${realm}`)
 
-    if (idSession) return await getUserData(idSession)
+    if (idSession) return getUserData()
 
     redirectToAuth()
 
@@ -41,18 +41,14 @@ async function checkToken () {
   }
 }
 
-async function getUserData (idSession: string) {
+async function getUserData () {
   window.history.replaceState({}, "", window.location.pathname)
 
-  const response = await axios.get(`${baseURL}/profile/me`, {
-    headers: {
-      Token: idSession
-    }
-  })
+  const response = await IdentityProviderRepository.getProfileMe()
 
-  window.localStorage.setItem("tokenSession", response.data.access_token)
+  window.localStorage.setItem("tokenSession", response.access_token)
 
-  return response.data
+  return response
 }
 
 function redirectToAuth () {

@@ -25,13 +25,11 @@ const injectToken = (config: AxiosRequestConfig) => {
 const handleError = async (error: AxiosError) => {
   const {
     config,
-    response: { status }
+    response
   } = error
 
-  debugger
-  if (config && status) {
-    if (!config?.headers?.token || status === 500) {
-      debugger
+  if (config && response?.status) {
+    if (!config?.headers?.token || response.status === 500) {
       window.location.href = `${baseURL}/auth`
     } else {
       try {
