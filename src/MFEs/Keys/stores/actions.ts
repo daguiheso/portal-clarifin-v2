@@ -1,38 +1,19 @@
 import repositoryFactory from "../repositories/RepositoryFactory"
 import useKeysStore from "../stores"
-import { CreateCategoriesByTemplateClientRequest, CreateKeyRequest, CreateTemplateCategoryByClientRequest } from "../interfaces/request.interface"
+import { CreateKeyRequest, CreateTemplateCategoryByClientRequest } from "../interfaces/request.interface"
 import { handleError } from "@/commons/utils"
 
 const bffRepository = repositoryFactory.bffRepository
 
 export default {
 
-  async getUnclassifiedCategoriesByBusiness (data: { clientId: string, businessId: string, params: any }) {
-    const store = useKeysStore()
-
-    store.accounting.isLoading = true
-
-    try {
-      const result = await bffRepository.getUnclassifiedCategoriesByBusiness(data)
-
-      store.accounting.data = result
-
-    } catch (error: unknown) {
-      store.accounting.error = error
-
-      handleError(error)
-    } finally {
-      store.accounting.isLoading = false
-    }
-  },
-
-  async getTemplateCategoriesByClient (clientId: string) {
+  async getTemplateCategoriesByClient () {
     const store = useKeysStore()
 
     store.templateCategories.isLoading = true
 
     try {
-      const result = await bffRepository.getTemplateCategoriesByClient({ clientId })
+      const result = await bffRepository.getTemplateCategoriesByClient()
 
       store.templateCategories.data = result.data
 
@@ -45,7 +26,7 @@ export default {
     }
   },
 
-  async createTemplateCategoryByClient (data: { clientId: string, businessId: string, data: CreateTemplateCategoryByClientRequest }) {
+  async createTemplateCategoryByClient (data: { companyId: string, idBusinessUnit: string, data: CreateTemplateCategoryByClientRequest }) {
     const store = useKeysStore()
 
     store.createTemplateCategory.isLoading = true
@@ -64,32 +45,32 @@ export default {
     }
   },
 
-  async getLevels () {
+  async getKeys () {
     const store = useKeysStore()
 
-    store.levels.isLoading = true
+    store.keys.isLoading = true
 
     try {
-      const result = await bffRepository.getLevels()
+      const result = await bffRepository.getKeys()
 
-      store.levels.data = result.data
+      store.keys.data = result.data
 
     } catch (error: unknown) {
-      store.levels.error = error
+      store.keys.error = error
 
       handleError(error)
     } finally {
-      store.levels.isLoading = false
+      store.keys.isLoading = false
     }
   },
 
-  async createKey (data: { clientId: string, businessId: string, keys: CreateKeyRequest[] }) {
+  async createKey (data: { companyId: string, idBusinessUnit: string, keys: CreateKeyRequest[] }) {
     const store = useKeysStore()
 
     store.createKey.isLoading = true
 
     try {
-      const result = await bffRepository.createLevels(data)
+      const result = await bffRepository.createKeys(data)
 
       store.createKey.data = result.data
 
@@ -105,42 +86,23 @@ export default {
     }
   },
 
-  async getLevelsByBusiness (data: { clientId: string, businessId: string }) {
+  async getKeysByCompany (data: { companyId: string }) {
     const store = useKeysStore()
 
-    store.levelsByBusiness.isLoading = true
+    store.keysByCompany.isLoading = true
 
     try {
-      const result = await bffRepository.getLevelsByBusiness(data)
+      const result = await bffRepository.getKeysByCompany(data)
 
-      store.levelsByBusiness.data = result.data
+      store.keysByCompany.data = result.data
 
     } catch (error: unknown) {
-      store.levelsByBusiness.error = error
+      store.keysByCompany.error = error
 
       handleError(error)
     } finally {
-      store.levelsByBusiness.isLoading = false
+      store.keysByCompany.isLoading = false
     }
   },
-
-  async createCategoriesByTemplateClient (data: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest }) {
-    const store = useKeysStore()
-
-    store.createCategoriesByTemplate.isLoading = true
-
-    try {
-      const result = await bffRepository.createCategoriesByTemplateClient(data)
-
-      store.createCategoriesByTemplate.data = result.data
-
-    } catch (error: unknown) {
-      store.createCategoriesByTemplate.error = error
-
-      handleError(error)
-    } finally {
-      store.createCategoriesByTemplate.isLoading = false
-    }
-  }
 
 }

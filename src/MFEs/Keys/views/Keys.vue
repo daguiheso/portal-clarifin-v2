@@ -1,12 +1,11 @@
 <template>
-
   <div class="d-flex justify-content-between align-items-center">
     <Pageheader
       heading="LLaves"
       :maintitle="['Home', 'LLaves']" />
 
     <button
-      v-if="clientSelected && businessSelected"
+      v-if="companySelected"
       type="button"
       class="btn btn-primary btn-wave"
       data-bs-target="#modalCreateKey"
@@ -25,31 +24,31 @@
           <div class="d-flex justify-content-around flex-wrap">
 
             <div class="form-group col-12 col-md-5">
-              <label class="control-label fw-semibold mb-2">Cliente</label>
-
-              <multiselect1
-                v-model="clientSelected"
-                :show-labels="false"
-                :options="clients.data"
-                :custom-label="nameWithLang"
-                placeholder="Select one"
-                label="name"
-                track-by="name"
-                @select="selectClient" />
-            </div>
-
-            <div class="form-group col-12 col-md-5">
               <label class="control-label fw-semibold mb-2">Compañia / Sociedad</label>
 
               <multiselect1
-                v-model="businessSelected"
+                v-model="companySelected"
                 :show-labels="false"
-                :options="business.data"
+                :options="companies.data"
                 :custom-label="nameWithLang"
                 placeholder="Selecciona un nivel"
                 label="name"
                 track-by="name"
                 @select="selectBusiness" />
+            </div>
+
+            <div class="form-group col-12 col-md-5">
+              <label class="control-label fw-semibold mb-2">Unidades de Negocio</label>
+
+              <multiselect1
+                v-model="businessUnitSelected"
+                :show-labels="false"
+                :options="companySelected?.businessUnits || []"
+                :custom-label="nameWithLang"
+                placeholder="Select one"
+                label="name"
+                track-by="name"
+                @select="selectBusinessUnit" />
             </div>
 
           </div>
@@ -58,79 +57,28 @@
       </div>
 
       <div
-        v-if="store.levelsByBusiness.data.length"
+        v-if="store.keysByCompany.data.length"
         class="table-responsive">
         <table class="table text-nowrap">
           <thead>
             <tr>
               <th scope="col">
-                LLave
-              </th>
-              <!-- <th scope="col">
-                Tag
+                Id
               </th>
               <th scope="col">
-                LLaves
-              </th> -->
+                LLave
+              </th>
             </tr>
           </thead>
 
           <tbody>
             <tr
-              v-for="(item, index) in store.levelsByBusiness.data"
+              v-for="(item, index) in store.keysByCompany.data"
               :key="index">
 
+              <td>{{ item?.id }}</td>
               <td>{{ item?.name }}</td>
 
-              <!-- <td class="col-4">
-                <div class="">
-                  <multiselect1
-                    v-model="item.level"
-                    :show-labels="false"
-                    :options="filteredLevels"
-                    :custom-label="nameWithLang"
-                    placeholder="Select one"
-                    label="name"
-                    track-by="name"
-                    @select="handleSelectLevel(item)">
-                    <template #beforeList>
-                      <div
-                        class="d-flex p-2"
-                        style="">
-                        <span
-                          class="badge d-flex align-items-center me-2"
-                          :class="currentLevelsFilter === 'all' ? 'bg-dark text-light' : 'bg-outline-dark'"
-                          role="button"
-                          @click="setFilterLevels('all')">
-                          Todas
-                        </span>
-                        <span
-                          class="badge d-flex align-items-center me-2"
-                          :class="currentLevelsFilter === 'base' ? 'bg-dark text-light' : 'bg-outline-dark'"
-                          role="button"
-                          @click="setFilterLevels('base')">
-                          Base
-                        </span>
-                        <span
-                          class="badge d-flex align-items-center me-2"
-                          :class="currentLevelsFilter === 'own' ? 'bg-dark text-light' : 'bg-outline-dark'"
-                          role="button"
-                          @click="setFilterLevels('own')">
-                          Propias
-                        </span>
-                      </div>
-                    </template>
-
-                    <template #noOptions>
-                      <div
-                        class="no-result"
-                        style="font-size: 12px;">
-                        No hay llaves propias
-                      </div>
-                    </template>
-                  </multiselect1>
-                </div>
-              </td> -->
             </tr>
           </tbody>
         </table>
@@ -202,70 +150,52 @@
 
 <script lang="ts" setup>
 import { computed, onUnmounted, ref } from "vue"
-import { format, subMonths } from "date-fns"
-import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
 
 import multiselect1 from "vue-multiselect"
 import "vue-multiselect/dist/vue-multiselect.css"
-
 import "vue3-form-wizard/dist/style.css"
+
+import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
 import { useClientsBusiness } from "@/hooks/useClientsBusiness"
-
-
 import useUnclassifiedCategoriesStore from "../stores"
 import { initialState } from "../stores/state"
 
 const store = useUnclassifiedCategoriesStore()
-const clientSelected = ref<any>(null)
-const { getClients, getBusiness, clients, business } = useClientsBusiness()
-const businessSelected = ref<any>(null)
+const { getCompanies, companies } = useClientsBusiness()
+const companySelected = ref<any>(null)
 const templateCategorySelected = ref<any>(null)
 const nameNewKey = ref<string>("")
-// const currentLevelsFilter = ref<"all" | "own" | "base">("all")
 
-store.accounting = {
-  data: [],
-  error: null,
-  isLoading: false
-}
-
-getClients()
-store.getLevels()
+store.getKeys()
 
 const isValidForm = computed(() => nameNewKey.value)
+const businessUnitSelected = ref<any>({})
 
-const selectClient = () => {
-  getBusiness(clientSelected.value.id)
-
-  businessSelected.value = null
-  store.getTemplateCategoriesByClient(clientSelected.value.id)
-}
-
-// const setFilterLevels = (type: "all" | "own" | "base") => {
-//   currentLevelsFilter.value = type
-// }
+getCompanies()
+store.getTemplateCategoriesByClient()
 
 const selectBusiness = async () => {
-  getUnclassifiedCategoriesByBusinessFor2YearsAgo()
+}
 
+const selectBusinessUnit = async () => {
   await setTemplateCategory()
 
-  store.getLevelsByBusiness({
-    clientId: clientSelected.value.id,
-    businessId: businessSelected.value.id
+  store.getKeysByCompany({
+    companyId: companySelected.value.id
   })
 }
 
 const setTemplateCategory = async () => {
-  const haveTemplateCategory = store.existTemplateCategoryForBusiness(businessSelected.value.id)
+  const haveTemplateCategory = store.existTemplateCategoryForBusinessUnit(businessUnitSelected.value.id)
 
   if (!haveTemplateCategory) {
+
     await store.createTemplateCategoryByClient({
-      clientId: clientSelected.value.id,
-      businessId: businessSelected.value.id,
+      companyId: companySelected.value.id,
+      idBusinessUnit: businessUnitSelected.value.id,
       data: {
-        name: "Custom Portal",
-        industry: industryByCurrentBussinesId.value || "Other"
+        name: `Company: ${companySelected.value.name} - Business Unit: ${businessUnitSelected.value.name} - Created from Portal`,
+        industry: companySelected.value.industry || "Other"
       }
     })
 
@@ -275,62 +205,21 @@ const setTemplateCategory = async () => {
   }
 }
 
-interface Business {
-  id: number;
-  industry: string;
-  // Add other properties as needed
-}
-
-const industryByCurrentBussinesId = computed(() => {
-  const businessData = business.value.data as Business[]
-
-  return businessData.find((b: Business) => b.id === businessSelected.value.id)?.industry
-})
-
 const nameWithLang = ({ name }: any) => `${name}`
 
-const getUnclassifiedCategoriesByBusinessFor2YearsAgo = () => {
-  const today = new Date()
-  const sixMonthsAgo = subMonths(today, 24)
-
-  const formattedToday = format(today, "yyyy-M-dd")
-  const formattedSixMonthsAgo = format(sixMonthsAgo, "yyyy-M-dd")
-
-  store.getUnclassifiedCategoriesByBusiness({
-    clientId: clientSelected.value.id,
-    businessId: businessSelected.value.id,
-    params: {
-      start_date: formattedSixMonthsAgo,
-      end_date: formattedToday
-    }
-  })
-}
-
-// const handleSelectLevel = (item: any) => {
-//   store.createCategoriesByTemplateClient({
-//     clientId: clientSelected.value.id,
-//     businessId: businessSelected.value.id,
-//     templateId: templateCategorySelected.value,
-//     data: {
-//       code: item.code,
-//       idLevel: item.level.id
-//     }
-//   })
-// }
 
 const createKey = async () => {
   const result = await store.createKey({
-    clientId: clientSelected.value.id,
-    businessId: businessSelected.value.id,
+    companyId: companySelected.value.id,
+    idBusinessUnit: businessUnitSelected.value.id,
     keys: [{
       name: nameNewKey.value
     }]
   })
 
   if (result) {
-    store.getLevelsByBusiness({
-      clientId: clientSelected.value.id,
-      businessId: businessSelected.value.id
+    store.getKeysByCompany({
+      companyId: companySelected.value.id
     })
 
     nameNewKey.value = ""
