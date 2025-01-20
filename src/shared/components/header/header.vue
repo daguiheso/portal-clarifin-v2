@@ -192,32 +192,6 @@
         </div>
         <!-- End::header-element -->
 
-        <!-- Start::header-element -->
-        <div class="header-element right-sidebar d-xl-flex d-none">
-          <a
-            href="javascript:void(0);"
-            class="header-link right-sidebar"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#right-sidebar-canvas">
-            <i class="fe fe-align-right header-icons header-link-icon" />
-          </a>
-        </div>
-        <!-- End::header-element -->
-
-        <!-- Start::header-element -->
-        <div class="header-element">
-          <!-- Start::header-link|switcher-icon -->
-          <a
-            href="javascript:void(0);"
-            class="header-link switcher-icon"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#switcher-canvas">
-            <i class="fe fe-settings header-link-icon" />
-          </a>
-          <!-- End::header-link|switcher-icon -->
-        </div>
-        <!-- End::header-element -->
-
       </div>
       <!-- End::header-content-right -->
 
