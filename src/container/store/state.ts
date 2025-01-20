@@ -11,6 +11,11 @@ const state: State = {
     error: null,
     isLoading: false
   },
+  companies: {
+    data: [],
+    error: null,
+    isLoading: false
+  },
 }
 
 export default state

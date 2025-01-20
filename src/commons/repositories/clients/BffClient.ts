@@ -3,7 +3,7 @@ import { baseInterceptor } from "@/commons/utils/axiosInterceptors"
 import axios, { InternalAxiosRequestConfig } from "axios"
 
 // const baseURL = "https://api.clarifin.co"
-const baseURL = "https://apigw.clarifin.co"
+const baseURL = "https://apigw-v2.clarifin.co"
 
 const BffClient = axios.create({
   baseURL

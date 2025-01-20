@@ -22,11 +22,11 @@ export function useClientsBusiness () {
     }
   }
 
-  const getBusiness = async (clientId: string) => {
+  const getBusiness = async () => {
     store.business.isLoading = true
 
     try {
-      const result = await bffRepository.getBusiness(clientId)
+      const result = await bffRepository.getBusiness()
 
       store.business.data = result.data
     } catch (error: unknown) {
@@ -35,6 +35,22 @@ export function useClientsBusiness () {
       handleError(error)
     } finally {
       store.business.isLoading = false
+    }
+  }
+
+  const getCompanies = async () => {
+    store.companies.isLoading = true
+
+    try {
+      const result = await bffRepository.getCompanies()
+
+      store.companies.data = result.data
+    } catch (error: unknown) {
+      store.companies.error = error
+
+      handleError(error)
+    } finally {
+      store.companies.isLoading = false
     }
   }
 
@@ -51,10 +67,18 @@ export function useClientsBusiness () {
     error: store.business.error
   }))
 
+  const companies = computed(() => ({
+    data: store.companies.data,
+    isLoading: store.companies.isLoading,
+    error: store.companies.error
+  }))
+
   return {
     getClients,
     getBusiness,
+    getCompanies,
     clients,
-    business
+    business,
+    companies
   }
 }

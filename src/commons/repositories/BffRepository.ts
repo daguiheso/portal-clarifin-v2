@@ -1,4 +1,5 @@
 import BffClient from "@/commons/repositories/clients/BffClient"
+import { getClientId } from "../utils"
 
 const v1BaseUrl = "/v1/entity"
 
@@ -8,8 +9,12 @@ export default {
     return BffClient.get(`${v1BaseUrl}/client`)
   },
 
-  getBusiness (clientId: string) {
-    return BffClient.get(`${v1BaseUrl}/client/${clientId}/business`)
+  getBusiness () {
+    return BffClient.get(`${v1BaseUrl}/client/${getClientId()}/business`)
   },
+
+  getCompanies () {
+    return BffClient.get(`${v1BaseUrl}/client/${getClientId()}/company`)
+  }
 
 }

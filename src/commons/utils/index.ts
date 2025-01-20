@@ -31,3 +31,7 @@ export function getIdentityProviderUrlBase () {
   return "https://session.clarifin.co/v2/entity/sessions/clarifin"
 }
 
+export const getClientId = () => {
+  return localStorage.getItem("clientId") || ""
+}
+
