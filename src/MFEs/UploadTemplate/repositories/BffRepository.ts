@@ -1,25 +1,16 @@
 import BffClient from "@/commons/repositories/clients/BffClient"
-import { objectToQueryParams } from "@/commons/utils"
+import { getClientId, objectToQueryParams } from "@/commons/utils"
 
 const v1BaseUrl = "/v1/entity"
 
 export default {
-
-  getClients () {
-    return BffClient.get(`${v1BaseUrl}/client`)
-  },
-
-  getBusiness (clientId: string) {
-    return BffClient.get(`${v1BaseUrl}/client/${clientId}/business`)
-  },
 
   getFormats () {
     return BffClient.get(`${v1BaseUrl}/format-file`)
   },
 
   async uploadFile (data: {
-    idClient: number,
-    idBusiness: number,
+    companyId: number,
     idFormat: number,
     dateImport: string,
     file: Blob,
@@ -28,8 +19,8 @@ export default {
     const formData = new FormData()
 
     formData.append("file", data.file)
-    formData.append("idClient", String(data.idClient))
-    formData.append("idBusiness", String(data.idBusiness))
+    formData.append("idClient", String(getClientId()))
+    formData.append("idBusiness", String(data.companyId))
     formData.append("idFormat", String(data.idFormat))
     formData.append("dateImport", data.dateImport)
     formData.append("ignorePreviousBalance", String(data.ignorePreviousBalance))
@@ -46,18 +37,18 @@ export default {
     return { response: uploadFileResponse }
   },
 
-  async getAccounting ({ clientId, businessId, params }: { clientId: string, businessId: string, params: any }) {
+  async getAccounting ({ companyId, params }: { companyId: string, params: any }) {
 
-    const result = await BffClient.get(`${v1BaseUrl}/client/${clientId}/business/${businessId}/accounting${objectToQueryParams(params)}`)
+    const result = await BffClient.get(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/accounting${objectToQueryParams(params)}`)
 
     return result.data.accounting.filter((item: any) => item.transactional === "S")
   },
 
-  async deletePUC ({ clientId, businessId, dateImport }: { clientId: string, businessId: string, dateImport: string }) {
+  async deletePUC ({ companyId, dateImport }: { companyId: string, dateImport: string }) {
     const formData = new FormData()
 
-    formData.append("idClient", String(clientId))
-    formData.append("idBusiness", String(businessId))
+    formData.append("idClient", String(getClientId()))
+    formData.append("idBusiness", String(companyId))
     formData.append("dateImport", dateImport)
 
     const result = await BffClient.delete(`${v1BaseUrl}/puc`, {

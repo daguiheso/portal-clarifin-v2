@@ -25,6 +25,8 @@ export default {
   },
 
   logout () {
+    window.localStorage.clear()
+
     return IdentityProviderClient.post("/logout")
   }
 }

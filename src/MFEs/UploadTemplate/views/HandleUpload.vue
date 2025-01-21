@@ -27,49 +27,21 @@
         finish-button-text="Terminar"
         @on-complete="goToHome">
 
-        <!-- <template #next>
-          <button
-            type="button"
-            class="wizard-btn d-flex align-items-center">
-            <div
-              v-if="store.uploadFile.isLoading"
-              class="spinner-border spinner-border-sm me-2"
-              role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            Procesar
-          </button>
-        </template> -->
-
         <tab-content
           title="Cargar Plantilla"
           :before-change="validateStep1">
           <div class="col-xs-12 text-start pb-4">
             <div class="col-md-12">
 
-              <div class="d-flex justify-content-around">
-
-                <div class="form-group col-12 col-md-5">
-                  <label class="control-label fw-semibold mb-2">Cliente</label>
-
-                  <multiselect1
-                    v-model="clientSelected"
-                    :show-labels="false"
-                    :options="clients.data"
-                    :custom-label="nameWithLang"
-                    placeholder="Selecciona un cliente"
-                    label="name"
-                    track-by="name"
-                    @select="selectedClient" />
-                </div>
+              <div class="d-flex justify-content-start">
 
                 <div class="form-group col-12 col-md-5">
                   <label class="control-label fw-semibold mb-2">Compañia / Sociedad</label>
 
                   <multiselect1
-                    v-model="businessSelected"
+                    v-model="companySelected"
                     :show-labels="false"
-                    :options="business.data"
+                    :options="companies.data"
                     :custom-label="nameWithLang"
                     placeholder="Selecciona una compañia"
                     label="name"
@@ -91,15 +63,6 @@
                     max="2026-09"
                     required="true">
                 </div>
-                <!-- <div class="form-group">
-                  <div class="input-group">
-                    <Datepicker1
-                      v-model="dateImport"
-                      placeholder="Date Time"
-                      class="datepicker-here"
-                      month-picker />
-                  </div>
-                </div> -->
 
                 <div class="form-group col-12 col-md-5">
                   <label class="control-label fw-semibold mb-2">Formato</label>
@@ -132,7 +95,7 @@
                   </div>
                 </div>
 
-                <div class="form-group col-12 col-md-5"></div>
+                <div class="form-group col-12 col-md-5" />
               </div>
 
               <ClaUploader
@@ -155,8 +118,6 @@
                 Hay campos obligatorios que no se han completado
               </div>
 
-
-
             </div>
           </div>
         </tab-content>
@@ -171,7 +132,7 @@
                 <div
                   class="alert alert-secondary"
                   role="alert">
-                  {{ store.uploadFile.error.errorDescription }}
+                  {{ store.uploadFile.error.errorDescription || store.uploadFile.error }}
                 </div>
 
                 <template v-if="store.uploadFile.error.errors?.length">
@@ -194,7 +155,7 @@
                   Plantilla procesada correctamente
                 </h2>
 
-                <div
+                <!-- <div
                   v-if="Array.isArray(store.accounting.data) && store.accounting.data.length"
                   class="text-center mt-5">
                   <p>Se han encontrado categorías PUC aún sin clasificar.</p>
@@ -204,7 +165,7 @@
                     @click="goToUnclassifiedCategories">
                     Clasificar categorías PUC
                   </button>
-                </div>
+                </div> -->
               </template>
 
             </div>
@@ -232,11 +193,8 @@ import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
 
 import multiselect1 from "vue-multiselect"
 import "vue-multiselect/dist/vue-multiselect.css"
-
 import { FormWizard, TabContent } from "vue3-form-wizard"
 import "vue3-form-wizard/dist/style.css"
-// import Datepicker from "vue3-datepicker"
-// import Datepicker1 from "@vuepic/vue-datepicker"
 
 import useUploadTemplateStore from "../stores"
 import ClaUploader from "../components/ClaUploader.vue"
@@ -245,13 +203,12 @@ import DeleteUploadedPUC from "./DeleteUploadedPUC.vue"
 import { getLastDayOfMonth, handleError } from "@/commons/utils"
 
 const store = useUploadTemplateStore()
-const clientSelected = ref<any>(null)
-const businessSelected = ref<any>(null)
+const companySelected = ref<any>(null)
 const format = ref<any>(null)
 const dateImport = ref<any>(null)
 const isStep1Dirty = ref(false)
 const router = useRouter()
-const { getClients, getBusiness, clients, business } = useClientsBusiness()
+const { getCompanies, companies } = useClientsBusiness()
 
 const allowedExtensions = [".xlsx", ".xls"]
 
@@ -260,39 +217,16 @@ const dragAndDrop = ref()
 const showErrors = ref(false)
 const ignoreMonthValidation = ref(false)
 
-getClients()
-
-// store.getClients()
-
 const isValidStep1 = computed(() => {
-  return clientSelected.value && businessSelected.value && format.value && dateImport.value && fileContent.value
+  return companySelected.value && format.value && dateImport.value && fileContent.value
 })
 
-// interface UploadFileData {
-//   status: string;
-//   [key: string]: any;
-// }
+getCompanies()
+store.getFormats()
 
-// const isOk = computed(() => {
-//   const data = store.uploadFile.data as UploadFileData
+companySelected.value = null
 
-//   return data?.status === "SUCCESS"
-// })
-
-const selectedClient = () => {
-  getBusiness(clientSelected.value.id)
-  store.getFormats()
-
-  businessSelected.value = null
-}
-
-const nameWithLang = ({ name }: any) => {
-  return `${name}`
-}
-
-// const onChangeCurrentTab = async (prevIndex: number, nextIndex: number) => {
-
-// }
+const nameWithLang = ({ name }: any) => `${name}`
 
 const validateStep1 = async () => {
   isStep1Dirty.value = true
@@ -309,26 +243,21 @@ const onFileDelete = () => {
 }
 
 const uploadFile = async () => {
-  // localLoading.value = true
   const blob = new Blob([fileContent.value as File], { type: "application/vnd.ms-excel; charset=utf-8" })
 
   showErrors.value = false
 
-  const result = await store.uploadFile({
-    idClient: clientSelected.value.id,
-    idBusiness: businessSelected.value.id,
+  await store.uploadFile({
+    companyId: companySelected.value.id,
     idFormat: format.value.id,
     dateImport: `${dateImport.value}-${getLastDayOfMonth(dateImport.value)}`,
     file: blob,
     ignorePreviousBalance: ignoreMonthValidation.value
   })
 
-  if (result) getAccounting()
+  // if (result) getAccounting()
 
   return true
-  // store.resetUploadStatus()
-
-  // localLoading.value = false
 }
 
 const onFileChange = (file: File) => {
@@ -351,22 +280,21 @@ const onFileChange = (file: File) => {
   fileContent.value = file
 }
 
-const getAccounting = () => {
-  store.getAccounting({
-    clientId: clientSelected.value.id,
-    businessId: businessSelected.value.id,
-    params: {
-      start_date: `${dateImport.value}-1`,
-      end_date: `${dateImport.value}-${getLastDayOfMonth(dateImport.value)}`
-    }
-  })
-}
+// const getAccounting = () => {
+//   store.getAccounting({
+//     companyId: companySelected.value.id,
+//     params: {
+//       start_date: `${dateImport.value}-1`,
+//       end_date: `${dateImport.value}-${getLastDayOfMonth(dateImport.value)}`
+//     }
+//   })
+// }
 
-const goToUnclassifiedCategories = () => {
-  router.push(`/unclassified-categories?client=${clientSelected.value.id}&business=${businessSelected.value.id}&start_date=${dateImport.value}-1&end_date=${dateImport.value}-${getLastDayOfMonth(dateImport.value)}`)
-}
+// const goToUnclassifiedCategories = () => {
+//   router.push(`/unclassified-categories?client=${clientSelected.value.id}&business=${companySelected.value.id}&start_date=${dateImport.value}-1&end_date=${dateImport.value}-${getLastDayOfMonth(dateImport.value)}`)
+// }
 
-const goToHome = () => router.push("/home")
+const goToHome = () => router.push("/")
 
 </script>
 

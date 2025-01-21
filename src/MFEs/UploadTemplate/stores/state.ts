@@ -1,18 +1,6 @@
 import { State } from "../interfaces/state.interface"
 
 const state: State = {
-  clientSelected: null,
-  businessSelected: null,
-  clients: {
-    data: [],
-    error: null,
-    isLoading: false
-  },
-  business: {
-    data: [],
-    error: null,
-    isLoading: false
-  },
   formats: {
     data: [],
     error: null,

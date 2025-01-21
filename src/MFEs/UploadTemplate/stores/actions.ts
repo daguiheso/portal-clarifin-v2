@@ -6,43 +6,6 @@ import { claToast } from "@/commons/utils/toast"
 const bffRepository = repositoryFactory.bffRepository
 
 export default {
-  async getClients () {
-    const store = useUploadTemplateStore()
-
-    store.clients.isLoading = true
-
-    try {
-      const result = await bffRepository.getClients()
-
-      store.clients.data = result.data
-
-    } catch (error: unknown) {
-      store.clients.error = error
-
-      handleError(error)
-    } finally {
-      store.clients.isLoading = false
-    }
-  },
-
-  async getBusiness (clientId: string) {
-    const store = useUploadTemplateStore()
-
-    store.business.isLoading = true
-
-    try {
-      const result = await bffRepository.getBusiness(clientId)
-
-      store.business.data = result.data
-
-    } catch (error: unknown) {
-      store.business.error = error
-
-      handleError(error)
-    } finally {
-      store.business.isLoading = false
-    }
-  },
 
   async getFormats () {
     const store = useUploadTemplateStore()
@@ -64,8 +27,7 @@ export default {
   },
 
   async uploadFile (data: {
-    idClient: number,
-    idBusiness: number,
+    companyId: number,
     idFormat: number,
     dateImport: string,
     file: Blob,
@@ -87,7 +49,7 @@ export default {
       if (!error?.response?.data?.errorDescription) {
         store.uploadFile.error = error
       } else {
-        store.uploadFile.error = error.response.data
+        store.uploadFile.error = error.response.data?.error
       }
       handleError(error)
 
@@ -98,7 +60,7 @@ export default {
     }
   },
 
-  async getAccounting (data: { clientId: string, businessId: string, params: any }) {
+  async getAccounting (data: { companyId: string, params: any }) {
     const store = useUploadTemplateStore()
 
     store.accounting.isLoading = true
@@ -117,7 +79,7 @@ export default {
     }
   },
 
-  async deletePUC (data: { clientId: string, businessId: string, dateImport: string }) {
+  async deletePUC (data: { companyId: string, dateImport: string }) {
     const store = useUploadTemplateStore()
 
     store.deletePUC.isLoading = true
@@ -134,9 +96,7 @@ export default {
 
     } catch (error: unknown) {
 
-      claToast.errorToast(
-        "<strong class=' me-auto'>ClariFIN</strong>" +
-        "<div class='toast-body'>Hubo un problema y no se pudo eliminar los PUC´s</div>",
+      claToast.errorToast("Hubo un problema y no se pudo eliminar los PUC´s",
       )
       store.deletePUC.error = error
 

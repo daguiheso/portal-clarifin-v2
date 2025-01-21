@@ -32,8 +32,5 @@ export const handleAxiosError = async (error: AxiosError, client: AxiosInstance)
     }
   }
 
-  window.localStorage.clear()
-  window.location.href = "/auth/signin"
-
   return Promise.reject(error)
 }

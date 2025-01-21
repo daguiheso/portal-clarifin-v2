@@ -18,25 +18,12 @@
         <div class="d-flex justify-content-around flex-wrap">
 
           <div class="form-group col-12 col-md-5">
-            <label class="control-label fw-semibold mb-2">Cliente</label>
-
-            <multiselect1
-              v-model="clientSelected"
-              :show-labels="false"
-              :options="clients.data"
-              placeholder="Selecciona un cliente"
-              label="name"
-              track-by="name"
-              @select="selectedClient" />
-          </div>
-
-          <div class="form-group col-12 col-md-5">
             <label class="control-label fw-semibold mb-2">Compañia / Sociedad</label>
 
             <multiselect1
-              v-model="businessSelected"
+              v-model="companySelected"
               :show-labels="false"
-              :options="business.data"
+              :options="companies.data"
               :preselect-first="true"
               placeholder="Selecciona una compañia"
               label="name"
@@ -101,24 +88,19 @@ import useUploadTemplateStore from "../stores"
 import { useClientsBusiness } from "@/hooks/useClientsBusiness"
 
 const store = useUploadTemplateStore()
-const { getClients, getBusiness, clients, business } = useClientsBusiness()
+const { getCompanies, companies } = useClientsBusiness()
 
-const clientSelected = ref<any>(null)
-const businessSelected = ref<any>(null)
+const companySelected = ref<any>(null)
 const dateImport = ref<any>(null)
 const isConfirming = ref(false)
 
 const isValidForm = computed(() => {
-  return clientSelected.value && businessSelected.value && dateImport.value
+  return companySelected.value && dateImport.value
 })
 
-getClients()
+getCompanies()
 
-const selectedClient = () => {
-  getBusiness(clientSelected.value.id)
-
-  businessSelected.value = null
-}
+companySelected.value = null
 
 const handleDeleteClick = () => {
   if (isConfirming.value) {
@@ -130,8 +112,7 @@ const handleDeleteClick = () => {
 
 const deletePUC = () => {
   store.deletePUC({
-    clientId: clientSelected.value.id,
-    businessId: businessSelected.value.id,
+    companyId: companySelected.value.id,
     dateImport: `${dateImport.value}-01`
   }).finally(() => {
     isConfirming.value = false;
