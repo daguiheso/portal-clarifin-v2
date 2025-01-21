@@ -45,25 +45,6 @@ export default {
     }
   },
 
-  async getKeys () {
-    const store = useKeysStore()
-
-    store.keys.isLoading = true
-
-    try {
-      const result = await bffRepository.getKeys()
-
-      store.keys.data = result.data
-
-    } catch (error: unknown) {
-      store.keys.error = error
-
-      handleError(error)
-    } finally {
-      store.keys.isLoading = false
-    }
-  },
-
   async createKey (data: { companyId: string, idBusinessUnit: string, keys: CreateKeyRequest[] }) {
     const store = useKeysStore()
 

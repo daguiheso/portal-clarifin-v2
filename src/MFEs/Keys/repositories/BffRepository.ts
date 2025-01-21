@@ -6,10 +6,6 @@ const v1BaseUrl = "/v1/entity"
 
 export default {
 
-  getKeys () {
-    return BffClient.get(`${v1BaseUrl}/keys`)
-  },
-
   createKeys ({ companyId, idBusinessUnit, keys }: { companyId: string, idBusinessUnit: string, keys: CreateKeyRequest[] }) {
     return BffClient.post(`${v1BaseUrl}/keys/client/${getClientId()}/company/${companyId}/business_unit/${idBusinessUnit}`, keys)
   },

@@ -166,8 +166,6 @@ const companySelected = ref<any>(null)
 const templateCategorySelected = ref<any>(null)
 const nameNewKey = ref<string>("")
 
-store.getKeys()
-
 const isValidForm = computed(() => nameNewKey.value)
 const businessUnitSelected = ref<any>({})
 

@@ -11,11 +11,6 @@ export const initialState = () => ({
     error: null,
     isLoading: false
   },
-  keys: {
-    data: [],
-    error: null,
-    isLoading: false
-  },
   keysByCompany: {
     data: [],
     error: null,
