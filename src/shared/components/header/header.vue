@@ -134,7 +134,7 @@
           <ul
             class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
             aria-labelledby="mainHeaderProfile">
-            <li>
+            <!-- <li>
               <div class="header-navheading border-bottom">
                 <h6 class="main-notification-title">
                   Sonia Taylor
@@ -143,50 +143,23 @@
                   Web Designer
                 </p>
               </div>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
               <router-link
                 class="dropdown-item d-flex border-bottom"
                 :to="`/pages/profile`">
                 <i
                   class="fe fe-user fs-16 align-middle me-2" />Profile
               </router-link>
-            </li>
+            </li> -->
             <li>
-              <router-link
-                class="dropdown-item d-flex border-bottom"
-                :to="`/apps/mail/mailinbox`">
-                <i
-                  class="fe fe-inbox fs-16 align-middle me-2" />Inbox <span
-                  class="badge bg-success ms-auto">
-                  25
-                </span>
-              </router-link>
-            </li>
-            <li>
-              <router-link
-                class="dropdown-item d-flex border-bottom"
-                :to="`/pages/settings`">
-                <i
-                  class="fe fe-settings fs-16 align-middle me-2" />Settings
-              </router-link>
-            </li>
-            <li>
-              <router-link
-                class="dropdown-item d-flex border-bottom"
-                :to="`/advancedui/chat`">
-                <i
-                  class="fe fe-headphones fs-16 align-middle me-2" />Support
-              </router-link>
-            </li>
-            <li>
-              <router-link
+              <button
                 class="dropdown-item d-flex"
-                :to="`/custompages/signin`">
+                @click.prevent="logout">
                 <i
                   class="fe fe-power fs-16 align-middle me-2" />Log
                 Out
-              </router-link>
+              </button>
             </li>
           </ul>
         </div>
@@ -204,6 +177,8 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from "vue"
 import { switcherStore } from "@/stores/switcher.ts"
+import IdentityProviderRepository from "@/commons/repositories/IdentityProviderRepository"
+import { getIdentityProviderUrlBase } from "@/commons/utils"
 
 const isFullScreen = ref(false)
 
@@ -315,6 +290,21 @@ const handleScroll = () => {
     Scolls.forEach((e) => {
       e.classList.remove("sticky-pin")
     })
+  }
+}
+
+const logout = async () => {
+  const baseURL = getIdentityProviderUrlBase()
+
+  try {
+    await IdentityProviderRepository.logout()
+    window.localStorage.clear()
+    window.location.href = `${baseURL}/auth`
+  } catch (errorTemp) {
+    console.log("error Logout", errorTemp)
+    window.localStorage.clear()
+    window.location.href = `${baseURL}/auth`
+    throw new Error("More than one failure")
   }
 }
 

@@ -4,7 +4,7 @@ export const menuData = [
     headTitle: "dashboard",
   },
   {
-    path: "/home",
+    path: "/",
     title: "Home",
     type: "link",
     icon: "icon-home",

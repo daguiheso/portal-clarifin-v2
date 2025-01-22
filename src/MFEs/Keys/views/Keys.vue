@@ -33,8 +33,7 @@
                 :custom-label="nameWithLang"
                 placeholder="Selecciona un nivel"
                 label="name"
-                track-by="name"
-                @select="selectBusiness" />
+                track-by="name" />
             </div>
 
             <div class="form-group col-12 col-md-5">
@@ -171,9 +170,6 @@ const businessUnitSelected = ref<any>({})
 
 getCompanies()
 store.getTemplateCategoriesByClient()
-
-const selectBusiness = async () => {
-}
 
 const selectBusinessUnit = async () => {
   await setTemplateCategory()

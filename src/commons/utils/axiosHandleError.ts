@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios"
-import IdentityProviderRepository from "../repositories/IdentityProviderRepository";
+import IdentityProviderRepository from "../repositories/IdentityProviderRepository"
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   retry?: boolean;
@@ -13,10 +13,9 @@ export const handleAxiosError = async (error: AxiosError, client: AxiosInstance)
   const config: CustomAxiosRequestConfig | undefined = error.config
   const isUnauthorized = error.response?.status === 401
   const isForbidden = error.response?.status === 403
-  const isCustomAuthError = error.response?.status === 491
   const shouldRetry = !config?.retry
 
-  if ((isUnauthorized || isCustomAuthError || isForbidden) && shouldRetry) {
+  if ((isUnauthorized || isForbidden || error.code === "ERR_NETWORK") && shouldRetry) {
     if (config) config.retry = true
 
     try {
