@@ -20,13 +20,13 @@ export default {
 
     formData.append("file", data.file)
     formData.append("idClient", String(getClientId()))
-    formData.append("idBusiness", String(data.companyId))
+    formData.append("idCompany", String(data.companyId))
     formData.append("idFormat", String(data.idFormat))
     formData.append("dateImport", data.dateImport)
     formData.append("ignorePreviousBalance", String(data.ignorePreviousBalance))
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const uploadFileResponse = await BffClient.post(`${v1BaseUrl}/puc/upload`, formData,
+    const uploadFileResponse = await BffClient.post(`${v1BaseUrl}/puc/client/${getClientId()}/upload`, formData,
       {
         headers: {
           "Content-Type": "multipart/form-data"

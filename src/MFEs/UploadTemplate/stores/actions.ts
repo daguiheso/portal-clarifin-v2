@@ -46,11 +46,13 @@ export default {
       return true
 
     } catch (error: any) {
+
       if (!error?.response?.data?.errorDescription) {
         store.uploadFile.error = error
       } else {
-        store.uploadFile.error = error.response.data?.error
+        store.uploadFile.error = error.response.data
       }
+
       handleError(error)
 
       return false
