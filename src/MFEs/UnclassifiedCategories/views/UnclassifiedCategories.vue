@@ -15,22 +15,6 @@
 
           <div class="d-flex justify-content-between flex-wrap">
 
-            <div class="col-12 col-md-6 pe-md-3">
-              <div class="form-group">
-                <label class="control-label fw-semibold mb-2">Cliente</label>
-
-                <multiselect1
-                  v-model="store.clientSelected"
-                  :show-labels="false"
-                  :options="clients.data"
-                  :custom-label="nameWithLang"
-                  placeholder="Select one"
-                  label="name"
-                  track-by="name"
-                  @select="selectClient" />
-              </div>
-            </div>
-
             <div class="col-12 col-md-6 ps-md-3">
               <div class="form-group">
                 <label class="control-label fw-semibold mb-2">Compañia / Sociedad</label>
@@ -38,13 +22,26 @@
                 <multiselect1
                   v-model="store.businessSelected"
                   :show-labels="false"
-                  :options="business.data"
+                  :options="companies.data"
                   :custom-label="nameWithLang"
                   placeholder="Selecciona un nivel"
                   label="name"
-                  track-by="name"
-                  @select="selectBusiness" />
+                  track-by="name" />
               </div>
+            </div>
+
+            <div class="form-group col-12 col-md-5">
+              <label class="control-label fw-semibold mb-2">Unidades de Negocio</label>
+
+              <multiselect1
+                v-model="store.businessUnitSelected"
+                :show-labels="false"
+                :options="store.businessSelected?.businessUnits || []"
+                :custom-label="nameWithLang"
+                placeholder="Select one"
+                label="name"
+                track-by="name"
+                @select="selectBusinessUnit" />
             </div>
           </div>
         </div>
@@ -118,47 +115,40 @@ import AccountingNoClassified from "./AccountingNoClassified.vue"
 import { initialState } from "../stores/state"
 
 const store = useUnclassifiedCategoriesStore()
-const { getClients, getBusiness, clients, business } = useClientsBusiness()
+const { getCompanies, companies } = useClientsBusiness()
 const templateCategorySelected = ref<any>(null)
 const route = useRoute()
 
-const queryParamClient = route.query.client
-const queryParamBusiness = route.query.business
-const queryParamStartDate = route.query.start_date
-const queryParamEndDate = route.query.end_date
+// const queryParamBusiness = route.query.business
+// const queryParamStartDate = route.query.start_date
+// const queryParamEndDate = route.query.end_date
 
 store.accounting.data = []
 store.accounting.error = null
+store.businessSelected = null
 
-getClients()
-store.getLevels()
+store.getKeys()
+getCompanies()
+store.getTemplateCategoriesByClient()
 
-const hasSelectedClientBusiness = computed(() => {
-  return store.clientSelected && store.businessSelected
-})
 
-const selectClient = () => {
-  getBusiness(store.clientSelected.id)
+const hasSelectedClientBusiness = computed(() => store.businessSelected && store.businessUnitSelected)
 
-  store.businessSelected = null
-  store.getTemplateCategoriesByClient()
-}
-
-const selectBusiness = async () => {
+const selectBusinessUnit = async () => {
   getAccountingFor2YearsAgo()
 
   await setTemplateCategory()
 
-  store.getLevelsByBusiness()
+  store.getKeysByCompany()
 }
 
 const setTemplateCategory = async () => {
-  const haveTemplateCategory = store.existTemplateCategoryForBusiness(store.businessSelected.id)
+  const haveTemplateCategory = store.existTemplateCategoryForBusinessUnit(store.businessUnitSelected.id)
 
   if (!haveTemplateCategory) {
     await store.createTemplateCategoryByClient({
       data: {
-        name: "Custom Portal",
+        name: `Company: ${store.businessSelected.name} - Business Unit: ${store.businessUnitSelected.name} - Created from Portal`,
         industry: industryByCurrentBussinesId.value || "Other"
       }
     })
@@ -176,7 +166,7 @@ interface Business {
 }
 
 const industryByCurrentBussinesId = computed(() => {
-  const businessData = business.value.data as Business[]
+  const businessData = companies.value.data as Business[]
 
   return businessData.find((b: Business) => b.id === store.businessSelected.id)?.industry
 })
@@ -198,34 +188,33 @@ const getAccountingFor2YearsAgo = () => {
   })
 }
 
-const getAccounting = (startDate: any, endDate: any) => {
-  store.getAccounting({
-    params: {
-      start_date: startDate,
-      end_date: endDate
-    }
-  })
-}
+// const getAccounting = (startDate: any, endDate: any) => {
+//   store.getAccounting({
+//     params: {
+//       start_date: startDate,
+//       end_date: endDate
+//     }
+//   })
+// }
 
 const areThereQueryParams = computed(() => Object.keys(route.query).length)
 
-const init = async () => {
-  if (areThereQueryParams.value) {
+// const init = async () => {
+//   if (areThereQueryParams.value) {
 
-    store.clientSelected = { id: queryParamClient }
-    store.businessSelected = { id: queryParamBusiness }
+//     store.businessSelected = { id: queryParamBusiness }
 
-    await store.getTemplateCategoriesByClient()
+//     await store.getTemplateCategoriesByClient()
 
-    getAccounting(queryParamStartDate, queryParamEndDate)
+//     getAccounting(queryParamStartDate, queryParamEndDate)
 
-    await setTemplateCategory()
+//     await setTemplateCategory()
 
-    store.getLevelsByBusiness()
-  }
-}
+//     store.getKeysByCompany()
+//   }
+// }
 
-init()
+// init()
 
 onUnmounted(() => {
   store.$state = initialState()

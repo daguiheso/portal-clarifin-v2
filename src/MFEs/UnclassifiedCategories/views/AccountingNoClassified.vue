@@ -17,6 +17,7 @@
       class="cla-table"
       :columns="columns"
       :rows="listAccountingNoClassified"
+      max-height="600px"
       :search-options="{
         enabled: true,
         placeholder: 'Busca por nombre de categoria o código',
@@ -30,6 +31,23 @@
         disableSelectInfo: true, // disable the select info panel on top
         selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
         alwaysShowSelectionInfo: true, // always show the row count, even when nothing is selected
+      }"
+      :pagination-options="{
+        enabled: true,
+        mode: 'pages',
+        perPage: 100,
+        position: 'bottom',
+        perPageDropdown: [50, 100, 200],
+        dropdownAllowAll: false,
+        jumpFirstOrLast : true,
+        firstLabel : 'Primera Pag',
+        lastLabel : 'Ultima Pag',
+        nextLabel: 'Siguiente',
+        prevLabel: 'Anterior',
+        rowsPerPageLabel: 'Registros por página',
+        ofLabel: 'de',
+        pageLabel: 'Página', // for 'pages' mode
+        allLabel: 'Todas',
       }"
       compact-mode
       style-class="vgt-table condensed">
@@ -137,19 +155,19 @@ const listAccountingNoClassified = computed(() => Array.isArray(store.accounting
 const filteredLevels = computed(() => {
   if (currentLevelsFilter.value === "all") return levelsAndBusinessLevels.value
 
-  if (currentLevelsFilter.value === "own") return store.levelsByBusiness.data
+  if (currentLevelsFilter.value === "own") return store.keysByCompany.data
 
-  return store.levels.data
+  return store.keys.data
 })
 
 const levelsAndBusinessLevels = computed(() => {
   return [
-    ...store.levels.data,
-    ...store.levelsByBusiness.data
+    ...store.keys.data,
+    ...store.keysByCompany.data
   ]
 })
 
-const filteredLevelNames = computed(() => filteredLevels.value.map(level => level?.name))
+const filteredLevelNames = computed(() => filteredLevels.value.map((level: any) => level?.name))
 
 const setFilterLevels = (type: "all" | "own" | "base") => currentLevelsFilter.value = type
 

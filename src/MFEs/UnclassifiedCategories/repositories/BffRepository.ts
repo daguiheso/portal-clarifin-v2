@@ -1,5 +1,5 @@
 import BffClient from "@/commons/repositories/clients/BffClient"
-import { objectToQueryParams } from "@/commons/utils"
+import { getClientId, objectToQueryParams } from "@/commons/utils"
 import { CreateCategoriesByTemplateClientRequest, CreateTemplateCategoryByClientRequest } from "../interfaces/request.interface"
 import { Accounting } from "../interfaces/response.interface"
 
@@ -7,54 +7,51 @@ const v1BaseUrl = "/v1/entity"
 
 export default {
 
-  async getUnclassifiedCategoriesByBusiness ({ clientId, businessId, params }: { clientId: string, businessId: string, params: any }): Promise<Accounting[]> {
+  async getUnclassifiedCategoriesByBusiness ({ companyId, params }: { companyId: string, params: any }): Promise<Accounting[]> {
 
-    const result = await BffClient.get(`${v1BaseUrl}/client/${clientId}/business/${businessId}/accounting${objectToQueryParams(params)}`)
+    const result = await BffClient.get(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/accounting${objectToQueryParams(params)}`)
 
     return result.data.accounting
       .filter((item: Accounting) => item.transactional === "S")
       .filter((item: Accounting) => item.category?.toLocaleLowerCase()?.includes("unclassified"))
   },
 
-  async getAccounting ({ clientId, businessId, params }: { clientId: string, businessId: string, params: any }): Promise<Accounting[]> {
-
-    const result = await BffClient.get(`${v1BaseUrl}/client/${clientId}/business/${businessId}/accounting${objectToQueryParams(params)}`)
+  async getAccounting ({ companyId, params }: { companyId: string, params: any }): Promise<Accounting[]> {
+    const result = await BffClient.get(`${v1BaseUrl}/client/${getClientId()}/company/${companyId}/accounting/csv${objectToQueryParams(params)}`)
 
     return result.data.accounting.filter((item: Accounting) => item.transactional === "S")
   },
 
-  getLevels () {
-    return BffClient.get(`${v1BaseUrl}/levels`)
+  getKeys () {
+    return BffClient.get(`${v1BaseUrl}/keys`)
   },
 
-  getLevelsByBusiness ({ clientId, businessId }: { clientId: string, businessId: string }) {
-    return BffClient.get(`${v1BaseUrl}/levels/client/${clientId}/business/${businessId}`)
+  getKeysByCompany ({ companyId }: { companyId: string }) {
+    return BffClient.get(`${v1BaseUrl}/keys/client/${getClientId()}/company/${companyId}`)
   },
 
-  getTemplateCategoriesByClient ({ clientId }: { clientId: string }) {
-    return BffClient.get(`${v1BaseUrl}/client/${clientId}/template_categories`)
+  getTemplateCategoriesByClient () {
+    return BffClient.get(`${v1BaseUrl}/client/${getClientId()}/template_categories`)
   },
 
-  createTemplateCategoryByClient ({ clientId, businessId, data }: { clientId: string, businessId: string, data: CreateTemplateCategoryByClientRequest }) {
-    return BffClient.post(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template_categories`, data)
+  createTemplateCategoryByClient ({ companyId, idBusinessUnit, data }: { companyId: string, idBusinessUnit: string, data: CreateTemplateCategoryByClientRequest }) {
+    return BffClient.post(`${v1BaseUrl}/client/${getClientId()}/company/${companyId}/business_unit/${idBusinessUnit}/template_categories`, data)
   },
 
   createCategoriesByTemplateClient ({
-    clientId,
-    businessId,
+    companyId,
     templateId,
     data
-  }: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
-    return BffClient.post(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template/${templateId}/categories`, data)
+  }: { companyId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
+    return BffClient.post(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/template/${templateId}/categories`, data)
   },
 
   updateCategoriesByTemplateClient ({
-    clientId,
-    businessId,
+    companyId,
     templateId,
     data
-  }: { clientId: string, businessId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
-    return BffClient.patch(`${v1BaseUrl}/client/${clientId}/business/${businessId}/template/${templateId}/categories`, data)
+  }: { companyId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
+    return BffClient.patch(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/template/${templateId}/categories`, data)
   }
 
 }

@@ -6,9 +6,13 @@ export interface TemplateCategory {
 	nameBusiness: string
 }
 
-export interface Level {
+export interface Key {
 	id: string
-	name: string
+  name: string
+  idCompany: any
+  idBusinessUnit: any
+  externalHostId: any
+  businessUnitName: any
 }
 
 export interface AccountingResp {

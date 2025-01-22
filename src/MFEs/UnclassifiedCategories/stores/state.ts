@@ -1,8 +1,8 @@
 import { State } from "../interfaces/state.interface"
 
 export const initialState = () => ({
-  clientSelected: null,
   businessSelected: null,
+  businessUnitSelected: null,
   accounting: {
     data: [],
     error: null,
@@ -18,12 +18,12 @@ export const initialState = () => ({
     error: null,
     isLoading: false
   },
-  levels: {
+  keys: {
     data: [],
     error: null,
     isLoading: false
   },
-  levelsByBusiness: {
+  keysByCompany: {
     data: [],
     error: null,
     isLoading: false

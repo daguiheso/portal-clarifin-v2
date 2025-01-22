@@ -15,8 +15,7 @@ export default {
     try {
       const result = await bffRepository.getAccounting({
         ...data,
-        clientId: store.clientSelected?.id,
-        businessId: store.businessSelected?.id
+        companyId: store.businessSelected?.id
       })
 
       store.accounting.data = result
@@ -36,7 +35,7 @@ export default {
     store.templateCategories.isLoading = true
 
     try {
-      const result = await bffRepository.getTemplateCategoriesByClient({ clientId: store.clientSelected?.id })
+      const result = await bffRepository.getTemplateCategoriesByClient()
 
       store.templateCategories.data = result.data
 
@@ -57,8 +56,8 @@ export default {
     try {
       const result = await bffRepository.createTemplateCategoryByClient({
         ...data,
-        clientId: store.clientSelected?.id,
-        businessId: store.businessSelected?.id
+        companyId: store.businessSelected?.id,
+        idBusinessUnit: store.businessUnitSelected?.id
       })
 
       store.createTemplateCategory.data = result.data
@@ -72,44 +71,43 @@ export default {
     }
   },
 
-  async getLevels () {
+  async getKeys () {
     const store = useUnclassifiedCategoriesStore()
 
-    store.levels.isLoading = true
+    store.keys.isLoading = true
 
     try {
-      const result = await bffRepository.getLevels()
+      const result = await bffRepository.getKeys()
 
-      store.levels.data = result.data
+      store.keys.data = result.data
 
     } catch (error: unknown) {
-      store.levels.error = error
+      store.keys.error = error
 
       handleError(error)
     } finally {
-      store.levels.isLoading = false
+      store.keys.isLoading = false
     }
   },
 
-  async getLevelsByBusiness () {
+  async getKeysByCompany () {
     const store = useUnclassifiedCategoriesStore()
 
-    store.levelsByBusiness.isLoading = true
+    store.keysByCompany.isLoading = true
 
     try {
-      const result = await bffRepository.getLevelsByBusiness({
-        clientId: store.clientSelected?.id,
-        businessId: store.businessSelected?.id
+      const result = await bffRepository.getKeysByCompany({
+        companyId: store.businessSelected?.id
       })
 
-      store.levelsByBusiness.data = result.data
+      store.keysByCompany.data = result.data
 
     } catch (error: unknown) {
-      store.levelsByBusiness.error = error
+      store.keysByCompany.error = error
 
       handleError(error)
     } finally {
-      store.levelsByBusiness.isLoading = false
+      store.keysByCompany.isLoading = false
     }
   },
 
@@ -121,8 +119,7 @@ export default {
     try {
       const result = await bffRepository.createCategoriesByTemplateClient({
         ...data,
-        clientId: store.clientSelected?.id,
-        businessId: store.businessSelected?.id
+        companyId: store.businessSelected?.id
       })
 
       store.createCategoriesByTemplate.data = result.data
@@ -144,8 +141,7 @@ export default {
     try {
       const result = await bffRepository.updateCategoriesByTemplateClient({
         ...data,
-        clientId: store.clientSelected?.id,
-        businessId: store.businessSelected?.id
+        companyId: store.businessSelected?.id
       })
 
       store.createCategoriesByTemplate.data = result.data
