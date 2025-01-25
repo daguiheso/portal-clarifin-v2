@@ -1,5 +1,5 @@
 import BffClient from "@/commons/repositories/clients/BffClient"
-import { getClientId, objectToQueryParams } from "@/commons/utils"
+import { getClientId } from "@/commons/utils"
 
 const v1BaseUrl = "/v1/entity"
 
@@ -37,21 +37,21 @@ export default {
     return { response: uploadFileResponse }
   },
 
-  async getAccounting ({ companyId, params }: { companyId: string, params: any }) {
+  // async getAccounting ({ companyId, params }: { companyId: string, params: any }) {
 
-    const result = await BffClient.get(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/accounting${objectToQueryParams(params)}`)
+  //   const result = await BffClient.get(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/accounting${objectToQueryParams(params)}`)
 
-    return result.data.accounting.filter((item: any) => item.transactional === "S")
-  },
+  //   return result.data.accounting.filter((item: any) => item.transactional === "S")
+  // },
 
   async deletePUC ({ companyId, dateImport }: { companyId: string, dateImport: string }) {
     const formData = new FormData()
 
-    formData.append("idClient", String(getClientId()))
+    // formData.append("idClient", String(getClientId()))
     formData.append("idBusiness", String(companyId))
     formData.append("dateImport", dateImport)
 
-    const result = await BffClient.delete(`${v1BaseUrl}/puc`, {
+    const result = await BffClient.delete(`${v1BaseUrl}/puc/client/${getClientId()}`, {
       data: formData
     })
 

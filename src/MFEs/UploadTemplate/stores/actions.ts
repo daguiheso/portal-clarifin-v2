@@ -62,24 +62,24 @@ export default {
     }
   },
 
-  async getAccounting (data: { companyId: string, params: any }) {
-    const store = useUploadTemplateStore()
+  // async getAccounting (data: { companyId: string, params: any }) {
+  //   const store = useUploadTemplateStore()
 
-    store.accounting.isLoading = true
+  //   store.accounting.isLoading = true
 
-    try {
-      const result = await bffRepository.getAccounting(data)
+  //   try {
+  //     const result = await bffRepository.getAccounting(data)
 
-      store.accounting.data = result
+  //     store.accounting.data = result
 
-    } catch (error: unknown) {
-      store.accounting.error = error
+  //   } catch (error: unknown) {
+  //     store.accounting.error = error
 
-      handleError(error)
-    } finally {
-      store.accounting.isLoading = false
-    }
-  },
+  //     handleError(error)
+  //   } finally {
+  //     store.accounting.isLoading = false
+  //   }
+  // },
 
   async deletePUC (data: { companyId: string, dateImport: string }) {
     const store = useUploadTemplateStore()
@@ -94,6 +94,7 @@ export default {
       claToast.successToast(
         "<strong class=' me-auto'>ClariFIN</strong>" +
         "<div class='toast-body'>PUC´s eliminados correctamente</div>",
+        true
       )
 
     } catch (error: unknown) {

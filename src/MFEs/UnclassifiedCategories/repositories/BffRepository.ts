@@ -7,15 +7,6 @@ const v1BaseUrl = "/v1/entity"
 
 export default {
 
-  async getUnclassifiedCategoriesByBusiness ({ companyId, params }: { companyId: string, params: any }): Promise<Accounting[]> {
-
-    const result = await BffClient.get(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/accounting${objectToQueryParams(params)}`)
-
-    return result.data.accounting
-      .filter((item: Accounting) => item.transactional === "S")
-      .filter((item: Accounting) => item.category?.toLocaleLowerCase()?.includes("unclassified"))
-  },
-
   async getAccounting ({ companyId, params }: { companyId: string, params: any }): Promise<Accounting[]> {
     const result = await BffClient.get(`${v1BaseUrl}/client/${getClientId()}/company/${companyId}/accounting/csv${objectToQueryParams(params)}`)
 
@@ -43,7 +34,7 @@ export default {
     templateId,
     data
   }: { companyId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
-    return BffClient.post(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/template/${templateId}/categories`, data)
+    return BffClient.post(`${v1BaseUrl}/client/${getClientId()}/company/${companyId}/template/${templateId}/categories`, data)
   },
 
   updateCategoriesByTemplateClient ({
@@ -51,7 +42,7 @@ export default {
     templateId,
     data
   }: { companyId: string, templateId: string, data: CreateCategoriesByTemplateClientRequest[] }) {
-    return BffClient.patch(`${v1BaseUrl}/client/${getClientId()}/business/${companyId}/template/${templateId}/categories`, data)
+    return BffClient.patch(`${v1BaseUrl}/client/${getClientId()}/company/${companyId}/template/${templateId}/categories`, data)
   }
 
 }
