@@ -70,7 +70,7 @@
                 <div class="card-item-body">
                   <div class="card-item-stat">
                     <h4 class="fw-bold">
-                      4
+                      {{ companies.data.length || '-' }}
                     </h4>
                     <!-- <small><b class="text-success">55%</b> higher</small> -->
                   </div>
@@ -165,11 +165,12 @@
 // @ts-nocheck
 
 import Pageheader from "../../shared/components/pageheader/Pageheader.vue"
-import apexchart from "@/shared/UI/apexcharts.vue"
+import { useClientsBusiness } from "@/hooks/useClientsBusiness"
 
-import {
-  projectOptions, projectData
-} from "./dahboardData.ts"
+const { getCompanies, companies } = useClientsBusiness()
+
+getCompanies()
+
 
 </script>
 
