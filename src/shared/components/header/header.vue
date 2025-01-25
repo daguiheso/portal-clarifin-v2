@@ -134,16 +134,16 @@
           <ul
             class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end"
             aria-labelledby="mainHeaderProfile">
-            <!-- <li>
+            <li>
               <div class="header-navheading border-bottom">
                 <h6 class="main-notification-title">
-                  Sonia Taylor
+                  {{ profileMe.data?.name }}
                 </h6>
                 <p class="main-notification-text mb-0">
-                  Web Designer
+                  {{ profileMe.data?.email }}
                 </p>
               </div>
-            </li> -->
+            </li>
             <!-- <li>
               <router-link
                 class="dropdown-item d-flex border-bottom"
@@ -177,12 +177,13 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from "vue"
 import { switcherStore } from "@/stores/switcher.ts"
-import IdentityProviderRepository from "@/commons/repositories/IdentityProviderRepository"
-import { getIdentityProviderUrlBase } from "@/commons/utils"
+import { useSession } from "@/hooks/useSession"
 
 const isFullScreen = ref(false)
 
 const switcher = switcherStore()
+
+const { profileMe, logout } = useSession()
 
 const colorthemeFn = (value: any) => {
   localStorage.setItem("spruhacolortheme", value)
@@ -190,10 +191,6 @@ const colorthemeFn = (value: any) => {
   localStorage.removeItem("spruhabodylightRGB")
   localStorage.removeItem("spruhabodyBgRGB")
 }
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll)
-})
 
 onMounted(() => {
   document.addEventListener("fullscreenchange", fullscreenchanged)
@@ -293,21 +290,10 @@ const handleScroll = () => {
   }
 }
 
-const logout = async () => {
-  const baseURL = getIdentityProviderUrlBase()
-
-  try {
-    await IdentityProviderRepository.logout()
-    window.localStorage.clear()
-    window.location.href = `${baseURL}/auth`
-  } catch (errorTemp) {
-    console.log("error Logout", errorTemp)
-    window.localStorage.clear()
-    window.location.href = `${baseURL}/auth`
-    throw new Error("More than one failure")
-  }
-}
-
 window.addEventListener("scroll", handleScroll)
 handleScroll()
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll)
+})
 </script>
