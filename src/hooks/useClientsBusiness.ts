@@ -22,22 +22,6 @@ export function useClientsBusiness () {
     }
   }
 
-  const getBusiness = async () => {
-    store.business.isLoading = true
-
-    try {
-      const result = await bffRepository.getBusiness()
-
-      store.business.data = result.data
-    } catch (error: unknown) {
-      store.business.error = error
-
-      handleError(error)
-    } finally {
-      store.business.isLoading = false
-    }
-  }
-
   const getCompanies = async () => {
     store.companies.isLoading = true
 
@@ -60,13 +44,6 @@ export function useClientsBusiness () {
     error: store.clients.error
   }))
 
-  // Objeto computado para `business`
-  const business = computed(() => ({
-    data: store.business.data,
-    isLoading: store.business.isLoading,
-    error: store.business.error
-  }))
-
   const companies = computed(() => ({
     data: store.companies.data,
     isLoading: store.companies.isLoading,
@@ -75,10 +52,8 @@ export function useClientsBusiness () {
 
   return {
     getClients,
-    getBusiness,
     getCompanies,
     clients,
-    business,
     companies
   }
 }

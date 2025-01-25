@@ -6,11 +6,6 @@ const state: State = {
     error: null,
     isLoading: false
   },
-  business: {
-    data: [],
-    error: null,
-    isLoading: false
-  },
   companies: {
     data: [],
     error: null,

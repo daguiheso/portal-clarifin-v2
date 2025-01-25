@@ -9,10 +9,6 @@ export default {
     return BffClient.get(`${v1BaseUrl}/client`)
   },
 
-  getBusiness () {
-    return BffClient.get(`${v1BaseUrl}/client/${getClientId()}/business`)
-  },
-
   getCompanies () {
     return BffClient.get(`${v1BaseUrl}/client/${getClientId()}/company`)
   }
