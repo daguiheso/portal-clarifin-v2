@@ -1,8 +1,10 @@
 import axios, { AxiosError, InternalAxiosRequestConfig, type AxiosRequestConfig } from "axios"
-import IdentityProviderRepository from "../IdentityProviderRepository"
 import { getIdentityProviderUrlBase } from "@/commons/utils"
+import { useSession } from "@/hooks/useSession"
 
 const baseURL = getIdentityProviderUrlBase()
+const { logout } = useSession()
+
 
 const IdentityProviderClient = axios.create({
   baseURL
@@ -32,16 +34,7 @@ const handleError = async (error: AxiosError) => {
     if (!config?.headers?.token || response.status === 500) {
       window.location.href = `${baseURL}/auth`
     } else {
-      try {
-        await IdentityProviderRepository.logout()
-        window.localStorage.clear()
-        window.location.href = `${baseURL}/auth`
-      } catch (errorTemp) {
-        console.log("error Logout", errorTemp)
-        window.localStorage.clear()
-        window.location.href = `${baseURL}/auth`
-        throw new Error("More than one failure")
-      }
+      logout()
     }
   }
 

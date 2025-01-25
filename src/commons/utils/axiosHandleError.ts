@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios"
-import IdentityProviderRepository from "../repositories/IdentityProviderRepository"
+import { useSession } from "@/hooks/useSession"
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   retry?: boolean;
@@ -14,16 +14,16 @@ export const handleAxiosError = async (error: AxiosError, client: AxiosInstance)
   const isUnauthorized = error.response?.status === 401
   const isForbidden = error.response?.status === 403
   const shouldRetry = !config?.retry
+  const { getProfileMe } = useSession()
 
   if ((isUnauthorized || isForbidden || error.code === "ERR_NETWORK") && shouldRetry) {
     if (config) config.retry = true
 
     try {
-      refreshingToken = refreshingToken || IdentityProviderRepository.getProfileMe()
-      const result = await refreshingToken
+      refreshingToken = refreshingToken || getProfileMe()
+      await refreshingToken
 
       refreshingToken = null
-      window.localStorage.setItem("tokenSession", result.access_token)
 
       return client(config!)
     } catch {
