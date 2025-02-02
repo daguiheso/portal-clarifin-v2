@@ -3,8 +3,6 @@ import { getIdentityProviderUrlBase } from "@/commons/utils"
 import { useSession } from "@/hooks/useSession"
 
 const baseURL = getIdentityProviderUrlBase()
-const { logout } = useSession()
-
 
 const IdentityProviderClient = axios.create({
   baseURL
@@ -25,6 +23,8 @@ const injectToken = (config: AxiosRequestConfig) => {
 }
 
 const handleError = async (error: AxiosError) => {
+  const { logout } = useSession()
+
   const {
     config,
     response
