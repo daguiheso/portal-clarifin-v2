@@ -4,6 +4,7 @@ import Errorpagesinfo from "../shared/layouts/errorpagesinfo.vue"
 import { uploadTemplateRoutes } from "@/MFEs/UploadTemplate/routes"
 import { unclassifiedCategoriesRoutes } from "@/MFEs/UnclassifiedCategories/routes"
 import { keysRoutes } from "@/MFEs/Keys/routes"
+import { uploadTemplateRoutesV2 } from "@/MFEs/UploadTemplateV2/routes"
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const routes = [
         component: () => import("../components/Models/screens/Models.vue"),
       },
       ...uploadTemplateRoutes,
+      ...uploadTemplateRoutesV2,
       ...unclassifiedCategoriesRoutes,
       ...keysRoutes
     ],

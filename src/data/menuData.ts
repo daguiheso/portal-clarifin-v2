@@ -36,6 +36,14 @@ export const menuData = [
     defaultActive: false,
   },
   {
+    path: "/uploadv2",
+    title: "Carga de PUC V2",
+    type: "link",
+    icon: "icon-cloud-upload",
+    active: true,
+    defaultActive: false,
+  },
+  {
     path: "/unclassified-categories",
     title: "Categorías PUC",
     type: "link",
