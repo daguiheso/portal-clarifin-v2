@@ -1,8 +1,9 @@
 <template>
   <div class="d-flex justify-content-between align-items-center">
-    <Pageheader
+    <PageheaderV2
       heading="Carga de PUC"
-      :maintitle="['Home', 'Carga de PUC']" />
+      :maintitle="['Historial PUC´s', 'Carga de PUC']"
+      :routes="['/uploads', '/uploadv2']" />
 
     <button
       type="button"
@@ -189,8 +190,6 @@
 import { computed, ref } from "vue"
 import { useRouter } from "vue-router"
 
-import Pageheader from "@/shared/components/pageheader/Pageheader.vue"
-
 import multiselect1 from "vue-multiselect"
 import "vue-multiselect/dist/vue-multiselect.css"
 import { FormWizard, TabContent } from "vue3-form-wizard"
@@ -201,6 +200,7 @@ import ClaUploader from "../components/ClaUploader.vue"
 import { useClientsBusiness } from "@/hooks/useClientsBusiness"
 import DeleteUploadedPUC from "./DeleteUploadedPUC.vue"
 import { getLastDayOfMonth, handleError } from "@/commons/utils"
+import PageheaderV2 from "@/shared/components/pageheader/PageheaderV2.vue"
 
 const store = useUploadTemplateStore()
 const companySelected = ref<any>(null)
