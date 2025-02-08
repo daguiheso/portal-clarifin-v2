@@ -5,6 +5,7 @@ import { uploadTemplateRoutes } from "@/MFEs/UploadTemplate/routes"
 import { unclassifiedCategoriesRoutes } from "@/MFEs/UnclassifiedCategories/routes"
 import { keysRoutes } from "@/MFEs/Keys/routes"
 import { uploadTemplateRoutesV2 } from "@/MFEs/UploadTemplateV2/routes"
+import { uploadsRoutes } from "@/MFEs/Process/routes"
 
 const routes = [
   {
@@ -24,7 +25,8 @@ const routes = [
       ...uploadTemplateRoutes,
       ...uploadTemplateRoutesV2,
       ...unclassifiedCategoriesRoutes,
-      ...keysRoutes
+      ...keysRoutes,
+      ...uploadsRoutes,
     ],
   },
   {

@@ -35,3 +35,25 @@ export const getClientId = () => {
   return localStorage.getItem("clientId") || ""
 }
 
+export const formattedDate = (date: string) => {
+  const convertDate = new Date(date)
+
+  const formattedDate = new Intl.DateTimeFormat("es-ES", {
+    dateStyle: "medium", // Puedes usar "short", "medium", "long", "full"
+    timeStyle: "short", // Muestra la hora en formato legible
+  }).format(convertDate)
+
+  return formattedDate
+}
+
+export const formattedMonthAndYear = (date: string) => {
+  const convertDate = new Date(date)
+
+  const formattedDate = new Intl.DateTimeFormat("es-ES", {
+    month: "long",
+    year: "numeric",
+  }).format(convertDate)
+
+  return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)
+}
+
